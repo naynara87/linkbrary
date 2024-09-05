@@ -1,0 +1,25 @@
+.headerContianer {
+  width: 100%;
+  max-width: 1520px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15px;
+  height: 93px;
+}
+.logo {
+  width: 133px;
+  img {
+    display: flex;
+  }
+}
+.fixed {
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+}
+.userWrap {
+  display: flex;
+  gap: 25px;
+}

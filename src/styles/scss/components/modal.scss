@@ -1,0 +1,39 @@
+.modalBg {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  right: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: calc(100% - 30px);
+  max-width: 360px;
+  background: var(--white);
+  border-radius: 15px;
+  padding: 32px 40px;
+  text-align: center;
+  .buttonClose {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+}
+
+.modalTitle {
+  margin-bottom: -10px;
+}
+.modalContents {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.folderName {
+  font-size: 14px;
+  color: var(--gray400);
+}

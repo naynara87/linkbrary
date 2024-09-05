@@ -1,0 +1,77 @@
+.button {
+  display: inline;
+  border-radius: 8px;
+  text-align: center;
+  background-color: transparent;
+  &.size_lg {
+    font-size: 18px;
+    padding: 0.8em 0;
+  }
+  &.size_md {
+    font-size: 16px;
+    padding: 0.8em 0;
+    width: 120px;
+  }
+  &.size_sm {
+    font-size: 14px;
+    padding: 0.8em 1.2em;
+    width: auto;
+  }
+}
+.buttonPrimary {
+  background: var(--primary-gradient);
+  color: var(--white);
+  &:hover {
+    color: var(--white);
+  }
+}
+.buttonCircle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+}
+.buttonGroup {
+  display: flex;
+  gap: 16px;
+}
+.buttonOutline {
+  width: auto;
+  border: 1px solid var(--primary-blue);
+  background: transparent;
+  font-size: 16px;
+  padding: 0.4em 0.8em;
+  &:hover {
+    color: var(--white);
+    background: var(--primary-blue);
+  }
+}
+.textButton {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 84px;
+  background: transparent;
+  color: var(--primary-blue);
+  font-size: 16px;
+}
+.buttonOption {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gray60);
+}
+.buttonProfile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  img {
+    border-radius: 100%;
+  }
+  p {
+    flex: none;
+  }
+}
+.buttonDelete {
+  background: var(--error);
+  color: #fff;
+}

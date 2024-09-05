@@ -1,25 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import { AuthProvider } from "./contexts/AuthProvider";
+import ToasterProvider from "./contexts/ToasterProvider";
 
-function App() {
+function Providers({ children }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ToasterProvider>
+      <AuthProvider>{children}</AuthProvider>
+    </ToasterProvider>
   );
+}
+
+function App({ children }) {
+  return <Providers>{children}</Providers>;
 }
 
 export default App;

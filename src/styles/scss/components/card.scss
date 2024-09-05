@@ -1,0 +1,78 @@
+.cardGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 40px;
+}
+.cardGroupHeader {
+  display: flex;
+}
+.cardList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px 20px;
+  @media (max-width: 1199px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 767px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.card {
+  box-shadow: var(--box-shadow);
+  border-radius: 15px;
+  &:hover {
+    outline: 1px solid var(--primary-blue);
+    box-shadow: var(--box-shadow-hover);
+  }
+}
+.cardImg {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+  .button {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+}
+.cardInfo {
+  position: relative;
+  padding: 15px 20px;
+
+  .cardInfoWrap {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .dropdown {
+    position: absolute;
+    right: -57px;
+    z-index: 98;
+  }
+  .time {
+    font-size: 13px;
+    color: #666;
+  }
+  .infoText {
+    width: 100%;
+    font-size: 16px;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  date {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-top: 10px;
+  }
+}
+.buttonMore {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
