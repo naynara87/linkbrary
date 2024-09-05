@@ -1,0 +1,18 @@
+POST https://linkbrary-api.vercel.app/8-8/auth/sign-up
+Content-Type: application/json
+
+{
+  "name": "나윤주",
+  "email": "test@example.com",
+  "password": "123123123"
+}
+
+###
+
+POST https://linkbrary-api.vercel.app/8-8/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "123123123"
+}

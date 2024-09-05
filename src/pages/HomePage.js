@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Button from "../components/ui/Button";
 import styles from "./HomePage.module.scss";
 import mainImg from "../styles/images/landing/banner.png";
@@ -17,8 +18,10 @@ function HomePage() {
           관리해 보세요
         </h2>
         <Button
+          as={Link}
+          to="/link"
           className="mxAuto"
-          size="Lg"
+          size="lg"
           color="Primary"
           type="button"
           style={{ width: "300px" }}
