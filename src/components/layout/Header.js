@@ -2,24 +2,40 @@ import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import logo from "../../styles/images/logo/logo.svg";
 import Button from "../../components/ui/Button";
+import myprofile from "../../styles/images/icon/icon_myprofile.svg";
+import { useAuth } from "../../contexts/AuthProvider";
 
 function Header() {
+  const { user } = useAuth();
+
   return (
     <header className={styles.fixed}>
       <div className={styles.headerContianer}>
         <h1 className={styles.logo}>
           <img src={logo} alt="logo" />
         </h1>
-        <Button
-          as={Link}
-          to="/login"
-          type="button"
-          color="Primary"
-          size="Md"
-          className="mlAuto"
-        >
-          로그인
-        </Button>
+        {user ? (
+          <div className={styles.userWrap}>
+            <Button as={Link} to="favorite" shape="Outline" size="md">
+              ⭐️&nbsp;즐겨찾기
+            </Button>
+            <Button type="button" shape="Profile">
+              <img src={myprofile} alt="프로필 이미지" />
+              <p>나윤주</p>
+            </Button>
+          </div>
+        ) : (
+          <Button
+            as={Link}
+            to="/login"
+            type="button"
+            color="Primary"
+            size="md"
+            className="mlAuto"
+          >
+            로그인
+          </Button>
+        )}
       </div>
     </header>
   );
