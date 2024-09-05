@@ -1,0 +1,26 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  ul {
+    display: flex;
+    margin: 0 auto;
+    gap: 10px;
+    li .button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg200);
+      padding: 0;
+      border-radius: 8px;
+      width: 48px;
+      height: 48px;
+      color: var(--gray400);
+      &.active {
+        color: var(--black);
+      }
+      &:hover {
+        background: var(--gray100);
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+/* ==== variables ==== */
+
+:root {
+  --main-font: "Pretendard";
+
+  --primary-blue: #6d6afe;
+  --primary-sky: #6ae3fe;
+  --primary-gradient: linear-gradient(
+    90deg,
+    var(--primary-blue),
+    var(--primary-sky)
+  );
+  --gradient-2: linear-gradient(90deg, var(--primary-blue), #ff9f9f);
+  --gradient-3: linear-gradient(90deg, #6fbaff, #ffd88b);
+  --gradient-4: linear-gradient(90deg, #6d7ccd, rgba(82, 136, 133, 0.22));
+  --gradient-5: linear-gradient(90deg, #fe578f, #68e8f9);
+
+  --primary-hover: #e7effb;
+  --primary-disabled: rgba(0, 0, 0, 0.2);
+
+  --error: #ff5b56;
+  --white: #ffffff;
+  --black: #111322;
+  --bg200: #f7f7f7;
+
+  --gray500: #3e3e43;
+  --gray400: #9fa6b2;
+  --gray300: #ccd5e3;
+  --gray200: #e7effb;
+  --gray100: #f0f6ff;
+  --gray60: #9fa6b2;
+
+  --text: #6b6b6b;
+  --input-text: #373740;
+  --input-bg: #f5f5f5;
+
+  --box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+  --box-shadow-hover: 0 5px 20px rgba(0, 0, 0, 0.16);
+}

@@ -1,0 +1,77 @@
+.mainForm {
+  width: 100%;
+  max-width: 400px;
+  padding: 238px 15px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+a.underline {
+  color: var(--primary-blue);
+  text-decoration: underline;
+}
+.formWrap {
+  text-align: center;
+  .logo_lg {
+    margin: 0 auto;
+  }
+  p {
+    margin-top: 16px;
+  }
+}
+.logo_lg {
+  width: 100%;
+  max-width: 210px;
+}
+.inputGroup {
+  position: relative;
+  label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .inputText {
+    width: 100%;
+    font-size: 16px;
+    padding: 1em;
+    border: 1px solid var(--gray300);
+    border-radius: 8px;
+    color: var(--input-text);
+    transition: 0.2s ease;
+    &:hover {
+      border: 1px solid var(--primary-blue);
+    }
+  }
+  .iconButton {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    right: 26px;
+    bottom: 26px;
+  }
+}
+.snsWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--input-text);
+  background-color: #e7effb;
+  border: 1px solid #ccd5e3;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+}
+.is_valid_errorText {
+  color: var(--error);
+  font-size: 14px;
+  margin-top: 6px;
+}
+.is_valid_error {
+  .inputText {
+    border: 1px solid var(--error);
+    &:hover {
+      border: 1px solid var(--error);
+    }
+  }
+}
