@@ -3,16 +3,16 @@
   border-radius: 8px;
   text-align: center;
   background-color: transparent;
-  &.sizeLg {
+  &.size_lg {
     font-size: 18px;
     padding: 0.8em 0;
   }
-  &.sizeMd {
+  &.size_md {
     font-size: 16px;
     padding: 0.8em 0;
     width: 120px;
   }
-  &.sizeSm {
+  &.size_sm {
     font-size: 14px;
     padding: 0.8em 1.2em;
     width: auto;
@@ -45,11 +45,11 @@
     background: var(--primary-blue);
   }
 }
-.textButton {
+.buttonText {
   display: flex;
   align-items: center;
   gap: 5px;
-  width: 84px;
+  width: 90px;
   background: transparent;
   color: var(--primary-blue);
   font-size: 16px;

@@ -3,7 +3,8 @@ import styles from "./Button.module.scss";
 function Button({
   className = "",
   color = "primary",
-  size = "md",
+  size = "",
+  shape = "",
   type = "button",
   disabled = false,
   as: AsComponent,
@@ -12,7 +13,8 @@ function Button({
 }) {
   const buttonClass = `
     ${styles.button}
-    ${styles[`size${size}`]}
+    ${styles[`size_${size}`]}
+    ${styles[`button${shape}`]} 
     ${styles[`button${color}`]} 
     ${className}
   `.trim();
