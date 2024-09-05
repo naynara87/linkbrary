@@ -3,6 +3,7 @@ import App from "./App";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import LinkPage from "./pages/LinkPage";
 import { FullLayout, LandingLayout } from "./components/layout/Layout";
 function Main() {
   return (
@@ -11,6 +12,7 @@ function Main() {
         <Routes>
           <Route element={<LandingLayout />}>
             <Route index element={<HomePage />} />
+            <Route path="link" element={<LinkPage />} />
           </Route>
           <Route element={<FullLayout />}>
             <Route path="login" element={<LoginPage />} />
