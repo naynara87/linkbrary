@@ -1,0 +1,73 @@
+.topBanner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  background-color: var(--gray100);
+  padding-top: 160px;
+  .title {
+    text-align: center;
+  }
+  em {
+    background: var(--gradient-2);
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+  }
+  .imgContainer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+.serviceInfo {
+  width: 100%;
+  max-width: 998px;
+  margin: 70px auto;
+}
+.infoWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 15px;
+  &.reverse {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+}
+.infoText {
+  em {
+    &.point1 {
+      background: var(--gradient-2);
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+    &.point2 {
+      background: var(--gradient-3);
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+    &.point3 {
+      background: var(--gradient-4);
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+    &.point4 {
+      background: var(--gradient-5);
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+  }
+  p {
+    font-size: 16px;
+    color: var(--text);
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+}
+.infoImg {
+  width: 550px;
+}
