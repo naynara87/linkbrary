@@ -1,0 +1,60 @@
+.card {
+  box-shadow: var(--box-shadow);
+  border-radius: 15px;
+  &:hover {
+    outline: 1px solid var(--primary-blue);
+    box-shadow: var(--box-shadow-hover);
+  }
+}
+.cardImg {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px 15px 0 0;
+  .button {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
+}
+.cardEditGroup {
+  margin-left: auto;
+}
+.cardInfo {
+  position: relative;
+  padding: 15px 20px;
+
+  .cardInfoWrap {
+    display: flex;
+    margin-bottom: 10px;
+  }
+  .dropdown {
+    position: absolute;
+    right: -57px;
+    z-index: 98;
+  }
+  .time {
+    font-size: 13px;
+    color: #666;
+  }
+  .infoText {
+    width: 100%;
+    font-size: 16px;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  date {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-top: 10px;
+  }
+}
+.buttonMore {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
