@@ -12,11 +12,13 @@ function Header() {
     <header className={styles.fixed}>
       <div className={styles.headerContianer}>
         <h1 className={styles.logo}>
-          <img src={logo} alt="logo" />
+          <Link to="/">
+            <img src={logo} alt="logo" />
+          </Link>
         </h1>
         {user ? (
           <div className={styles.userWrap}>
-            <Button as={Link} to="favorite" shape="Outline" size="md">
+            <Button as={Link} to="/favorite" shape="Outline" size="md">
               ⭐️&nbsp;즐겨찾기
             </Button>
             <Button type="button" shape="Profile">

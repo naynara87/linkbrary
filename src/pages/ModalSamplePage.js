@@ -1,20 +1,11 @@
 import styles from "./LinkPage.module.scss";
 import Button from "../components/ui/Button";
 import Icon from "../components/ui/Icon";
-import { useAuth } from "../contexts/AuthProvider";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import CardGroup from "../components/ui/CardGroup";
 import Pagination from "../components/ui/Pagination";
+import CardGroup from "../components/ui/CardGroup";
+import Modal from "../components/ui/Modal";
 
-function LinkPage() {
-  const { user } = useAuth(true);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!user) {
-      // navigate("/login");
-    }
-  }, [user, navigate]);
+function ModalSamplePage() {
   return (
     <>
       <section className={styles.linkHeader}>
@@ -48,8 +39,9 @@ function LinkPage() {
         <CardGroup />
         <Pagination />
       </section>
+      <Modal />
     </>
   );
 }
 
-export default LinkPage;
+export default ModalSamplePage;
