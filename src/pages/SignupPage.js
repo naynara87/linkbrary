@@ -13,7 +13,7 @@ function SignupPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
   const navigate = useNavigate();
-  const { user, login } = useAuth();
+  const { user, login, checkEmailExists } = useAuth();
 
   const {
     register,
@@ -25,14 +25,21 @@ function SignupPage() {
 
   const onSubmit = async (data) => {
     const { name, email, password } = data;
+
     try {
-      const res = await axios.post("auth/sign-up", {
+      const emailExists = await checkEmailExists(email);
+      if (emailExists) {
+        alert("이미 사용 중인 이메일입니다.");
+        return;
+      }
+
+      const res = await axios.post("/auth/sign-up", {
         name,
         email,
         password,
       });
       console.log(res);
-      // await login({ email, password });
+      await login({ email, password });
       navigate("/link");
     } catch (error) {
       console.error("회원가입 중 에러 발생:", error);
