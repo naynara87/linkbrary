@@ -4,6 +4,8 @@ import Icon from "../components/ui/Icon";
 import { useAuth } from "../contexts/AuthProvider";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../components/ui/Pagination";
+import CardGroup from "../components/ui/CardGroup";
 
 function LinkPage() {
   const { user } = useAuth(true);
@@ -11,31 +13,9 @@ function LinkPage() {
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      // navigate("/login");
     }
   }, [user, navigate]);
-  // async function getMyLinks() {
-  //   const res = await axios.get("/links");
-  //   const nextLinks = res.data;
-  //   setLinks(nextLinks);
-  // }
-  function handleEditClick(linkId) {
-    navigate(`/links/${linkId}`);
-  }
-
-  // function handleDeleteClick(linkId) {
-  //   axios.delete(`/links/${linkId}`);
-  //   setLinks((prevLinks) => prevLinks.filter((link) => link.id !== linkId));
-  // }
-
-  // useEffect(() => {
-  //   getMyLinks();
-  // }, []);
-
-  if (!user) {
-    return null;
-  }
-
   return (
     <>
       <section className={styles.linkHeader}>
@@ -66,6 +46,8 @@ function LinkPage() {
             <Icon type="plus" />
           </Button>
         </div>
+        <CardGroup />
+        <Pagination />
       </section>
     </>
   );
