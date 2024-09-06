@@ -15,38 +15,65 @@ export function AuthProvider({ children }) {
     isPending: true,
   });
 
-  // async function getMe() {
-  //   setValues((prevValues) => ({
-  //     ...prevValues,
-  //     isPending: true,
-  //   }));
-  //   let nextUser;
-  //   try {
-  //     const res = await axios.get("/users",{withCredentials: true});
-  //     nextUser = res.data;
-  //   } finally {
-  //     setValues((prevValues) => ({
-  //       ...prevValues,
-  //       user: nextUser,
-  //       isPending: false,
-  //     }));
-  //   }
-  // }
+  async function getMe() {
+    setValues((prevValues) => ({
+      ...prevValues,
+      isPending: true,
+    }));
+
+    let nextUser;
+    try {
+      const token = localStorage.getItem("accessToken");
+      const res = await axios.get("/users", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      nextUser = res.data;
+    } finally {
+      setValues((prevValues) => ({
+        ...prevValues,
+        user: nextUser,
+        isPending: false,
+      }));
+    }
+  }
 
   async function login({ email, password }) {
-    await axios.post("/auth/sign-in", {
-      email,
-      password,
-    });
-    // await getMe();
+    try {
+      const res = await axios.post("/auth/sign-in", {
+        email,
+        password,
+      });
+      await axios.post("//users/check-email", { email });
+
+      const token = res.data.accessToken; // 서버에서 받은 토큰을 가져옵니다.
+      localStorage.setItem("accessToken", token); // 토큰을 localStorage에 저장합니다.
+      // await getMe(); // 사용자 정보를 가져옵니다.
+    } catch (error) {
+      console.error("로그인 실패:", error);
+    }
   }
 
   async function logout() {
-    await axios.delete("auth/sign-in");
-    setValues((prevValues) => ({
-      ...prevValues,
-      user: null,
-    }));
+    try {
+      // await axios.post("/auth/sign-out");
+    } catch (error) {
+      console.error("로그아웃 실패:", error);
+    } finally {
+      localStorage.removeItem("accessToken");
+      setValues({ user: null, isPending: false });
+    }
+  }
+
+  async function checkEmailExists(email) {
+    try {
+      const response = await axios.post("/users/check-email", { email });
+      return response.data; // 서버에서 이메일 존재 여부를 `exists`로 반환한다고 가정
+    } catch (error) {
+      console.error("이메일 중복 체크 실패:", error);
+      return false;
+    }
   }
 
   // useEffect(() => {
