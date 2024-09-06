@@ -9,10 +9,6 @@ import Icon from "../components/ui/Icon";
 import Button from "../components/ui/Button";
 
 function LoginPage() {
-  const [values, setValues] = useState({
-    email: "",
-    password: "",
-  });
   const { user, login } = useAuth();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const navigate = useNavigate();
@@ -23,9 +19,15 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  async function onSubmit(e) {
-    const { email, password } = values;
-    await login({ email, password });
+  async function onSubmit(data) {
+    const { email, password } = data;
+    try {
+      await login({ email, password });
+      navigate("/link");
+    } catch (error) {
+      console.error("로그인 실패:", error);
+      alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
+    }
   }
   useEffect(() => {
     if (user) {

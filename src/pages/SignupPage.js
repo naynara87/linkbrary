@@ -10,39 +10,39 @@ import Icon from "../components/ui/Icon";
 import Button from "../components/ui/Button";
 
 function SignupPage() {
-  const [values, setValues] = useState({
-    name: "",
-    email: "",
-    password: "",
-    passwordRepeat: "",
-  });
-  const navigate = useNavigate();
-  const { user, login } = useAuth();
-
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
+  const navigate = useNavigate();
+  const { user, login } = useAuth();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
     watch,
   } = useForm();
 
-  async function onSubmit() {
-    const { name, email, password } = values;
-    await axios.post("/user", {
-      name,
-      email,
-      password,
-    });
-    await login({ email, password });
-    navigate("/");
-  }
+  const onSubmit = async (data) => {
+    const { name, email, password } = data;
+    try {
+      const res = await axios.post("auth/sign-up", {
+        name,
+        email,
+        password,
+      });
+      console.log(res);
+      // await login({ email, password });
+      navigate("/link");
+    } catch (error) {
+      console.error("회원가입 중 에러 발생:", error);
+      alert("회원가입에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
+    }
+  };
 
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/link");
     }
   }, [user, navigate]);
 
@@ -55,6 +55,12 @@ function SignupPage() {
   const togglePasswordConfirmVisibility = () => {
     setPasswordConfirmVisible((prev) => !prev);
   };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValue(name, value);
+  };
+
   return (
     <form className={styles.mainForm} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.formWrap}>
@@ -70,6 +76,7 @@ function SignupPage() {
           </Link>
         </p>
       </div>
+
       <div
         className={classNames(styles.inputGroup, {
           [styles.is_valid_error]: errors.name,
@@ -82,6 +89,7 @@ function SignupPage() {
           placeholder="이름을 작성해주세요."
           {...register("name", {
             required: "이름을 입력해주세요.",
+            onChange: handleChange,
           })}
         />
         {errors.name && (
@@ -105,6 +113,7 @@ function SignupPage() {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
               message: "이메일 형식으로 작성해 주세요.",
             },
+            onChange: handleChange,
           })}
         />
         {errors.email && (
@@ -129,6 +138,7 @@ function SignupPage() {
                 value: 8,
                 message: "8자 이상 작성해 주세요.",
               },
+              onChange: handleChange,
             })}
           />
           <button
@@ -162,6 +172,7 @@ function SignupPage() {
               required: "비밀번호가 일치하지 않습니다.",
               validate: (value) =>
                 value === passwordValue || "비밀번호가 일치하지 않습니다.",
+              onChange: handleChange,
             })}
           />
           <button

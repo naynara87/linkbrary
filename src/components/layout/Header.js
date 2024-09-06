@@ -21,7 +21,7 @@ function Header() {
             </Button>
             <Button type="button" shape="Profile">
               <img src={myprofile} alt="프로필 이미지" />
-              <p>나윤주</p>
+              <p>{user.name}</p>
             </Button>
           </div>
         ) : (
