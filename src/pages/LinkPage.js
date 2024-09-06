@@ -2,14 +2,13 @@ import styles from "./LinkPage.module.scss";
 import Button from "../components/ui/Button";
 import Icon from "../components/ui/Icon";
 import { useAuth } from "../contexts/AuthProvider";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Pagination from "../components/ui/Pagination";
 import CardGroup from "../components/ui/CardGroup";
+import Pagination from "../components/ui/Pagination";
 
 function LinkPage() {
   const { user } = useAuth(true);
-  const [links, setLinks] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     if (!user) {
