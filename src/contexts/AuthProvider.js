@@ -15,30 +15,30 @@ export function AuthProvider({ children }) {
     isPending: true,
   });
 
-  async function getMe() {
-    setValues((prevValues) => ({
-      ...prevValues,
-      isPending: true,
-    }));
-    let nextUser;
-    try {
-      const res = await axios.get("/users");
-      nextUser = res.data;
-    } finally {
-      setValues((prevValues) => ({
-        ...prevValues,
-        user: nextUser,
-        isPending: false,
-      }));
-    }
-  }
+  // async function getMe() {
+  //   setValues((prevValues) => ({
+  //     ...prevValues,
+  //     isPending: true,
+  //   }));
+  //   let nextUser;
+  //   try {
+  //     const res = await axios.get("/users",{withCredentials: true});
+  //     nextUser = res.data;
+  //   } finally {
+  //     setValues((prevValues) => ({
+  //       ...prevValues,
+  //       user: nextUser,
+  //       isPending: false,
+  //     }));
+  //   }
+  // }
 
   async function login({ email, password }) {
     await axios.post("/auth/sign-in", {
       email,
       password,
     });
-    await getMe();
+    // await getMe();
   }
 
   async function logout() {
@@ -49,9 +49,9 @@ export function AuthProvider({ children }) {
     }));
   }
 
-  useEffect(() => {
-    getMe();
-  }, []);
+  // useEffect(() => {
+  //   getMe();
+  // }, []);
 
   return (
     <AuthContext.Provider
