@@ -13,7 +13,7 @@ function SignupPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
   const navigate = useNavigate();
-  const { user, login, checkEmailExists } = useAuth();
+  const { user, login } = useAuth();
 
   const {
     register,
@@ -23,35 +23,44 @@ function SignupPage() {
     watch,
   } = useForm();
 
+  // const checkEmailDuplication = async (email) => {
+  //   try {
+  //     const response = await axios.post("/users/check-email", { email });
+  //     console.log(response);
+  //     if (response) {
+  //       return "이미 사용 중인 이메일입니다.";
+  //     }
+  //     return true;
+  //   } catch (error) {
+  //     console.error("이메일 중복 체크 중 에러 발생:", error);
+  //     return "이메일 중복 체크에 실패했습니다.";
+  //   }
+  // };
+
   const onSubmit = async (data) => {
-    const { name, email, password } = data;
-
     try {
-      const emailExists = await checkEmailExists(email);
-      if (emailExists) {
-        alert("이미 사용 중인 이메일입니다.");
-        return;
-      }
+      const { passwordConfirm, ...userData } = data;
 
-      const res = await axios.post("/auth/sign-up", {
-        name,
-        email,
-        password,
-      });
+      const res = await axios.post("/auth/sign-up", userData);
       console.log(res);
-      await login({ email, password });
+
+      if (res.data.token) {
+        localStorage.setItem("accessToken", res.data.token);
+        alert("회원가입이 완료되었습니다!");
+      }
+      await login({ email: userData.email, password: userData.password });
       navigate("/link");
     } catch (error) {
       console.error("회원가입 중 에러 발생:", error);
-      alert("회원가입에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
+      alert("회원가입에 실패했습니다.");
     }
   };
 
-  useEffect(() => {
-    if (user) {
-      navigate("/link");
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/link");
+  //   }
+  // }, [user, navigate]);
 
   const passwordValue = watch("password");
 
@@ -121,6 +130,7 @@ function SignupPage() {
               message: "이메일 형식으로 작성해 주세요.",
             },
             onChange: handleChange,
+            // validate: checkEmailDuplication,
           })}
         />
         {errors.email && (
