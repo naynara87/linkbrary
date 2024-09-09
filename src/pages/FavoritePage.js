@@ -1,9 +1,25 @@
 import styles from "./FavoritePage.module.scss";
-import Button from "../components/ui/Button";
-import Icon from "../components/ui/Icon";
 import Pagination from "../components/ui/Pagination";
 import CardGroup from "../components/ui/CardGroup";
+import { useEffect, useState } from "react";
+import { useAuth } from "../contexts/AuthProvider";
+import axios from "../lib/axios";
+
 function FavoritePage() {
+  const [values, setValues] = useState({
+    title: "",
+    url: "",
+  });
+  async function getFavorite() {
+    const res = await axios.get(`/favorites`);
+    console.log(res);
+    const { title, url } = res.data.list;
+    setValues({ title, url });
+  }
+  useEffect(() => {
+    getFavorite();
+  }, []);
+
   return (
     <>
       <section className={styles.linkHeader}>
