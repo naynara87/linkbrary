@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import style from "./Card.module.scss";
 import Button from "./Button";
@@ -22,31 +22,36 @@ function Card({
   const [isFavorite, setIsFavorite] = useState(favorite);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const location = useLocation();
-  const isFavoritePage = location.pathname === "/favorite";
+
+  // Memoize the check for favorite page to prevent unnecessary re-renders
+  const isFavoritePage = useMemo(
+    () => location.pathname === "/favorite",
+    [location.pathname]
+  );
+
   const imageSrc = imageSource || defaultImg;
 
   // Ref to track the dropdown element
   const dropdownRef = useRef(null);
 
-  const handleFavoriteToggle = async () => {
+  const handleFavoriteToggle = useCallback(async () => {
     try {
       const newFavoriteStatus = !isFavorite;
-      await axios.put(`/links/${id}/favorite`, {
-        favorite: newFavoriteStatus,
-      });
+      await axios.put(`/links/${id}/favorite`, { favorite: newFavoriteStatus });
       setIsFavorite(newFavoriteStatus);
+      alert("즐겨찾기로 추가되었습니다.");
     } catch (error) {
       console.error("즐겨찾기 상태 업데이트 중 오류 발생:", error);
     }
-  };
+  }, [id, isFavorite]);
 
-  const imgError = (e) => {
+  const imgError = useCallback((e) => {
     e.target.src = defaultImg;
-  };
+  }, []);
 
-  const toggleDropdown = () => {
+  const toggleDropdown = useCallback(() => {
     setIsDropdownVisible((prev) => !prev);
-  };
+  }, []);
 
   // Close dropdown when clicking outside of it
   useEffect(() => {
@@ -58,8 +63,6 @@ function Card({
 
     if (isDropdownVisible) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     // Cleanup event listener on unmount or when dropdown is closed
@@ -88,9 +91,7 @@ function Card({
               <Button type="button" onClick={toggleDropdown}>
                 <Icon type="more" />
               </Button>
-              {isDropdownVisible && (
-                <Dropdown linkId={id} onDelete={onDelete} />
-              )}
+              {isDropdownVisible && <Dropdown linkId={id} />}
             </div>
           )}
         </div>

@@ -3,14 +3,13 @@ import Button from "./Button";
 import { useModal } from "../../contexts/ModalProvider";
 import axios from "../../lib/axios";
 
-function Dropdown({ linkId, onDelete }) {
+function Dropdown({ linkId }) {
   const { openModal } = useModal();
 
   const handleLinkDelete = async () => {
     try {
       await axios.delete(`/links/${linkId}`);
       alert("링크가 삭제되었습니다.");
-      onDelete();
     } catch (error) {
       console.error("링크 삭제 중 오류 발생:", error);
       alert("링크 삭제에 실패했습니다.");
