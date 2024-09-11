@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import style from "./FolderEditBar.module.scss";
 import Button from "../../../components/ui/Button";
 import Icon from "../../../components/ui/Icon";
@@ -9,7 +9,7 @@ function FolderEditBar({ folderId }) {
   const [folderName, setFolderName] = useState("");
   const { openModal } = useModal();
 
-  async function fetchFolderInfo() {
+  const fetchFolderInfo = useCallback(async () => {
     if (folderId) {
       try {
         const res = await axios.get(`/folders/${folderId}`);
@@ -20,8 +20,13 @@ function FolderEditBar({ folderId }) {
     } else {
       setFolderName("전체");
     }
-  }
-  function handleRename() {
+  }, [folderId]);
+
+  useEffect(() => {
+    fetchFolderInfo();
+  }, [fetchFolderInfo]);
+
+  const handleRename = useCallback(() => {
     openModal(
       <div>
         <h4>폴더 이름 변경</h4>
@@ -35,27 +40,27 @@ function FolderEditBar({ folderId }) {
         </Button>
       </div>
     );
-  }
-  function handleDelete() {
+  }, [openModal]);
+
+  const handleDelete = useCallback(() => {
     openModal(
       <div>
-        <div>
-          <h5 className={style.modalTitle}>폴더 이름 변경</h5>
-          <form>
-            <div className={style.inputGroup}>
-              <Button type="submit" color="Delete" size="lg">
-                삭제하기
-              </Button>
-            </div>
-          </form>
-        </div>
+        <h5 className={style.modalTitle}>폴더 삭제</h5>
+        <form>
+          <div className={style.inputGroup}>
+            <Button type="submit" color="Delete" size="lg">
+              삭제하기
+            </Button>
+          </div>
+        </form>
       </div>
     );
-  }
-  function handleShare() {
+  }, [openModal]);
+
+  const handleShare = useCallback(() => {
     openModal(
       <div>
-        <h5 className={style.modalTitle}>폴더 이름 변경</h5>
+        <h5 className={style.modalTitle}>폴더 공유</h5>
         <form>
           <div className={style.inputGroup}>
             <input
@@ -71,10 +76,7 @@ function FolderEditBar({ folderId }) {
         </form>
       </div>
     );
-  }
-  useEffect(() => {
-    fetchFolderInfo();
-  }, [folderName]);
+  }, [openModal]);
 
   return (
     <div className={style.cardGroupHeader}>
