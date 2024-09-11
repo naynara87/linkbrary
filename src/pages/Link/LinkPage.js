@@ -1,7 +1,6 @@
 import styles from "./LinkPage.module.scss";
 import Button from "../../components/ui/Button";
 import axios from "../../lib/axios";
-import { useAuth } from "../../contexts/AuthProvider";
 import { useState, useEffect, useCallback } from "react";
 import LinkGroup from "./component/LinkGroup";
 import Pagination from "../../components/ui/Pagination";
@@ -18,7 +17,6 @@ function LinkListNone() {
 }
 
 function LinkPage() {
-  // const { user } = useAuth();
   const [values, setValues] = useState({
     folderId: null,
     url: "",
