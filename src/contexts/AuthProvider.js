@@ -14,6 +14,7 @@ export function AuthProvider({ children }) {
     user: null,
     isPending: true,
   });
+  const navigate = useNavigate();
 
   async function getMe() {
     setValues((prevValues) => ({
@@ -51,6 +52,7 @@ export function AuthProvider({ children }) {
     alert("로그아웃이 되었습니다.");
     localStorage.removeItem("accessToken");
     setValues({ user: null, isPending: false });
+    navigate("/");
   }
 
   // useEffect(() => {
