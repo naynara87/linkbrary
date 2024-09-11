@@ -1,13 +1,10 @@
-import { useLocation } from "react-router-dom";
-import style from "./CardGroup.module.scss";
-import Card from "./Card";
-import FolderEditBar from "./FolderEditBar";
 import { useState, useEffect } from "react";
-import axios from "../../lib/axios";
+import style from "./LinkGroup.module.scss";
+import Card from "../../../components/ui/Card";
+import FolderEditBar from "./FolderEditBar";
+import axios from "../../../lib/axios";
 
-function CardGroup({ folderId }) {
-  const location = useLocation();
-  const isFavoritePage = location.pathname === "/favorite";
+function LinkGroup({ folderId }) {
   const [folders, setfolders] = useState([]);
 
   useEffect(() => {
@@ -31,7 +28,7 @@ function CardGroup({ folderId }) {
 
   return (
     <div className={style.cardGroup}>
-      {!isFavoritePage && <FolderEditBar folderId={folderId} />}
+      <FolderEditBar folderId={folderId} />
       <div className={style.cardList}>
         {folders.map((folder) => (
           <Card key={folder.id} {...folder} />
@@ -41,4 +38,4 @@ function CardGroup({ folderId }) {
   );
 }
 
-export default CardGroup;
+export default LinkGroup;

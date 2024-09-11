@@ -1,8 +1,8 @@
 # 리액트 링크 공유 서비스 프로젝트
 
 - 배포 URL :
-- Test ID :
-- Test PW :
+- Test ID :test1112@example.com
+- Test PW :123123123
 
 <br>
 

@@ -1,3 +1,4 @@
+import classNames from "classnames";
 import styles from "./Button.module.scss";
 
 function Button({
@@ -6,18 +7,21 @@ function Button({
   size = "",
   shape = "",
   type = "button",
+  active = false, // Boolean 값으로 받음
   disabled = false,
   as: AsComponent,
   children,
   ...rest
 }) {
-  const buttonClass = `
-    ${styles.button}
-    ${styles[`size_${size}`]}
-    ${styles[`button${shape}`]} 
-    ${styles[`button${color}`]} 
-    ${className}
-  `.trim();
+  // classNames 라이브러리로 클래스 조합
+  const buttonClass = classNames(
+    styles.button,
+    styles[`size_${size}`],
+    styles[`button${shape}`],
+    styles[`button${color}`],
+    { [styles.on]: active },
+    className
+  );
 
   if (AsComponent) {
     return (

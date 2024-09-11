@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../contexts/AuthProvider";
-import axios from "../lib/axios";
+import { useAuth } from "../../contexts/AuthProvider";
+import axios from "../../lib/axios";
 import classNames from "classnames";
 import styles from "./SignupPage.module.scss";
-import logo from "../styles/images/logo/logo.svg";
-import Icon from "../components/ui/Icon";
-import Button from "../components/ui/Button";
+import logo from "../../styles/images/logo/logo.svg";
+import Icon from "../../components/ui/Icon";
+import Button from "../../components/ui/Button";
 
 function SignupPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -56,11 +56,11 @@ function SignupPage() {
     }
   };
 
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate("/link");
-  //   }
-  // }, [user, navigate]);
+  useEffect(() => {
+    if (user) {
+      navigate("/link");
+    }
+  }, [user, navigate]);
 
   const passwordValue = watch("password");
 

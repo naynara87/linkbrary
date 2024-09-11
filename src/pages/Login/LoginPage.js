@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../contexts/AuthProvider";
+import { useAuth } from "../../contexts/AuthProvider";
 import classNames from "classnames";
 import styles from "./LoginPage.module.scss";
-import logo from "../styles/images/logo/logo.svg";
-import Icon from "../components/ui/Icon";
-import Button from "../components/ui/Button";
+import logo from "../../styles/images/logo/logo.svg";
+import Icon from "../../components/ui/Icon";
+import Button from "../../components/ui/Button";
 
 function LoginPage() {
   const { user, login } = useAuth();

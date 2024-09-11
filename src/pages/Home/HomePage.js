@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import Button from "../components/ui/Button";
+import Button from "../../components/ui/Button";
 import styles from "./HomePage.module.scss";
-import mainImg from "../styles/images/landing/banner.png";
-import infoImg1 from "../styles/images/landing/img1.png";
-import infoImg2 from "../styles/images/landing/img2.png";
-import infoImg3 from "../styles/images/landing/img3.png";
-import infoImg4 from "../styles/images/landing/img4.png";
+import mainImg from "../../styles/images/landing/banner.png";
+import infoImg1 from "../../styles/images/landing/img1.png";
+import infoImg2 from "../../styles/images/landing/img2.png";
+import infoImg3 from "../../styles/images/landing/img3.png";
+import infoImg4 from "../../styles/images/landing/img4.png";
 
 function HomePage() {
   return (

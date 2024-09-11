@@ -6,7 +6,6 @@
 }
 .cardGroupHeader {
   display: flex;
-  margin-bottom: 25px;
 }
 .cardList {
   display: grid;
@@ -23,4 +22,10 @@
   display: flex;
   margin-left: auto;
   gap: 14px;
+}
+.searchNone {
+  padding: 40px 0 100px;
+  p {
+    text-align: center;
+  }
 }

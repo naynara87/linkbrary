@@ -26,6 +26,15 @@ function Header() {
               <img src={myprofile} alt="프로필 이미지" />
               <p>{user.name}</p>
             </Button>
+            <Button
+              type="button"
+              color="Primary"
+              size="md"
+              className="mlAuto"
+              onClick={handleLogout}
+            >
+              로그아웃
+            </Button>
           </div>
         ) : (
           <>
@@ -38,15 +47,6 @@ function Header() {
               className="mlAuto"
             >
               로그인
-            </Button>
-            <Button
-              type="button"
-              color="Primary"
-              size="md"
-              className="mlAuto"
-              onClick={handleLogout}
-            >
-              로그아웃
             </Button>
           </>
         )}
