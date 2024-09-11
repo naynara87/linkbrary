@@ -26,7 +26,7 @@
 }
 
 .modalTitle {
-  margin-bottom: 23px;
+  margin-bottom: -10px;
 }
 .modalContents {
   display: flex;
