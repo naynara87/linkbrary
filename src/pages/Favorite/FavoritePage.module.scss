@@ -19,7 +19,7 @@
   &::before {
     content: "";
     display: block;
-    background: url(../styles/images/icon/icon_link.svg) no-repeat center;
+    background: url(../../styles/images/icon/icon_link.svg) no-repeat center;
     background-size: contain;
     width: 20px;
     height: 40px;
@@ -44,7 +44,7 @@
     width: 100%;
     font-size: 16px;
     padding: 1.2em 1.2em 1.2em 3em;
-    background-image: url(../styles/images/icon/icon_search.svg);
+    background-image: url(../../styles/images/icon/icon_search.svg);
     background-repeat: no-repeat;
     background-position: center left 20px;
     background-color: var(--input-bg);
