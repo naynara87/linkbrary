@@ -18,7 +18,7 @@ function LinkListNone() {
 }
 
 function LinkPage() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const [values, setValues] = useState({
     folderId: null,
     url: "",
