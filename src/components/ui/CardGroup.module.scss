@@ -6,7 +6,13 @@
 }
 .cardGroupHeader {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
   margin-bottom: 25px;
+  @media (max-width: 767px) {
+    flex-direction: column;
+  }
 }
 .cardList {
   display: grid;
@@ -21,6 +27,5 @@
 }
 .optionGroup {
   display: flex;
-  margin-left: auto;
   gap: 14px;
 }

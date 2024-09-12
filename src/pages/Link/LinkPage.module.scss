@@ -16,8 +16,12 @@
   background-color: var(--white);
   border: 1px solid var(--primary-blue);
   border-radius: 15px;
+  @media (max-width: 767px) {
+    padding: 0.5em;
+  }
   &::before {
     content: "";
+    flex: none;
     display: block;
     background: url(../../styles/images/icon/icon_link.svg) no-repeat center;
     background-size: contain;
@@ -28,6 +32,9 @@
     flex: 1;
     font-size: 16px;
     padding-left: 5px;
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
   }
 }
 .linkContents {
@@ -50,6 +57,9 @@
     background-color: var(--input-bg);
     color: var(--input-text);
     border-radius: 15px;
+    @media (max-width: 767px) {
+      font-size: 14px;
+    }
   }
 }
 .categoryGroup {
@@ -71,6 +81,9 @@
   margin-bottom: 40px;
   em {
     color: var(--gray500);
+  }
+  @media (max-width: 767px) {
+    font-size: 24px;
   }
 }
 

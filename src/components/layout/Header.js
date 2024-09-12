@@ -13,17 +13,13 @@ function Header() {
     logout();
   };
   const handleLogoClick = () => {
-    if (user) {
-      navigate("/link");
-    } else {
-      navigate("/");
-    }
+    navigate("/");
   };
   return (
     <header className={styles.fixed}>
       <div className={styles.headerContianer}>
         <h1 className={styles.logo}>
-          <Link onClick={handleLogoClick}>
+          <Link onClick={handleLogoClick} aria-label="메인 이동 로고">
             <img src={logo} alt="logo" />
           </Link>
         </h1>
