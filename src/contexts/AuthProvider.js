@@ -21,10 +21,12 @@ export function AuthProvider({ children }) {
       ...prevValues,
       isPending: true,
     }));
-    let nextUser;
+    let nextUser = null;
     try {
       const res = await axios.get("/users");
       nextUser = res.data;
+    } catch (error) {
+      console.error("사용자 정보를 불러오지 못했습니다:", error);
     } finally {
       setValues((prevValues) => ({
         ...prevValues,
@@ -55,9 +57,9 @@ export function AuthProvider({ children }) {
     navigate("/");
   }
 
-  // useEffect(() => {
-  //   getMe();
-  // }, []);
+  useEffect(() => {
+    getMe();
+  }, []);
 
   return (
     <AuthContext.Provider

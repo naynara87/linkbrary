@@ -1,7 +1,9 @@
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthProvider"; // 추가
 import styles from "./LinkPage.module.scss";
 import Button from "../../components/ui/Button";
 import axios from "../../lib/axios";
-import { useState, useEffect, useCallback } from "react";
 import LinkGroup from "./component/LinkGroup";
 import Pagination from "../../components/ui/Pagination";
 import FolderList from "./component/FolderList";
@@ -17,6 +19,14 @@ function LinkListNone() {
 }
 
 function LinkPage() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
   const [values, setValues] = useState({
     folderId: null,
     url: "",
