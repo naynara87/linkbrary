@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import style from "./FolderEditBar.module.scss";
 import Button from "../../../components/ui/Button";
 import Icon from "../../../components/ui/Icon";
@@ -7,7 +7,8 @@ import { useModal } from "../../../contexts/ModalProvider";
 
 function FolderEditBar({ folderId }) {
   const [folderName, setFolderName] = useState("");
-  const { openModal } = useModal();
+  const { openModal, closeModal } = useModal();
+  const folderNameRef = useRef(null);
 
   const fetchFolderInfo = useCallback(async () => {
     if (folderId) {
@@ -26,57 +27,115 @@ function FolderEditBar({ folderId }) {
     fetchFolderInfo();
   }, [fetchFolderInfo]);
 
+  async function onSubmitRenameFolder(e) {
+    e.preventDefault();
+    console.log("클릭");
+    const newFolderName = folderNameRef.current.value.trim();
+    if (!newFolderName) {
+      alert("폴더명을 입력해 주세요.");
+      return;
+    }
+    try {
+      await axios.put(`/folders/${folderId}`, { name: newFolderName });
+      alert("폴더명이 수정되었습니다.");
+      fetchFolderInfo();
+      closeModal();
+    } catch (error) {
+      console.error("폴더 이름 변경 중 오류 발생:", error);
+    }
+  }
+
   const handleRename = useCallback(() => {
     openModal(
-      <div>
-        <h4>폴더 이름 변경</h4>
-        <input type="text" placeholder="새 폴더 이름 입력" />
-        <Button
-          type="button"
-          color="primary"
-          onClick={() => alert("이름 변경 완료!")}
-        >
-          확인
-        </Button>
-      </div>
-    );
-  }, [openModal]);
-
-  const handleDelete = useCallback(() => {
-    openModal(
-      <div>
-        <h5 className={style.modalTitle}>폴더 삭제</h5>
-        <form>
-          <div className={style.inputGroup}>
-            <Button type="submit" color="Delete" size="lg">
-              삭제하기
-            </Button>
-          </div>
-        </form>
-      </div>
-    );
-  }, [openModal]);
-
-  const handleShare = useCallback(() => {
-    openModal(
-      <div>
-        <h5 className={style.modalTitle}>폴더 공유</h5>
-        <form>
+      <>
+        <h5 className={style.modalTitle}>폴더 이름 변경</h5>
+        <form onSubmit={onSubmitRenameFolder}>
           <div className={style.inputGroup}>
             <input
               className={style.inputText}
               type="text"
-              placeholder="내용 입력"
-              value=""
+              placeholder="새 폴더 이름 입력"
+              defaultValue={folderName}
+              ref={folderNameRef}
             />
             <Button type="submit" color="Primary" size="lg">
-              추가하기
+              확인
             </Button>
           </div>
         </form>
-      </div>
+      </>
     );
-  }, [openModal]);
+  }, [openModal, folderName, onSubmitRenameFolder]);
+
+  async function onDeleteFolder(e) {
+    e.preventDefault();
+    try {
+      await axios.delete(`/folders/${folderId}`);
+      alert("폴더가 삭제되었습니다.");
+      fetchFolderInfo();
+      closeModal();
+    } catch (error) {
+      console.error("폴더 삭제 중 오류 발생:", error);
+    }
+  }
+  const handleDeleteFolder = useCallback(() => {
+    openModal(
+      <>
+        <h5 className={style.modalTitle}>폴더 삭제</h5>
+        <form onSubmit={onDeleteFolder}>
+          <div className={style.inputGroup}>
+            <p class={style.subTitle}>{folderName}</p>
+            <Button type="button" color="Delete" size="lg">
+              삭제하기
+            </Button>
+          </div>
+        </form>
+      </>
+    );
+  }, [openModal, folderName, onDeleteFolder]);
+
+  const handleShare = useCallback(() => {
+    openModal(
+      <>
+        <h5 className={style.modalTitle}>폴더 공유</h5>
+        <div className={style.inputGroup}>
+          <p class={style.subTitle}>{folderName}</p>
+          <ul className={style.shareLinks}>
+            <li>
+              <Button
+                type="button"
+                className="buttonCircle"
+                onClick={() => alert("준비 중입니다")}
+              >
+                <Icon type="kakaoColor" size="lg" className="icon_full" />
+              </Button>
+              <label>카카오톡</label>
+            </li>
+            <li>
+              <Button
+                type="button"
+                className="buttonCircle"
+                onClick={() => alert("준비 중입니다")}
+              >
+                <Icon type="facebookColor" size="lg" className="icon_full" />
+              </Button>
+              <label>페이스북</label>
+            </li>
+            <li>
+              <Button
+                type="button"
+                className="buttonCircle"
+                onClick={() => alert("준비 중입니다")}
+              >
+                <Icon type="linkColor" size="lg" className="icon_full" />
+              </Button>
+              <label>링크 복사</label>
+            </li>
+          </ul>
+        </div>
+      </>
+    );
+  }, [openModal, folderName]);
 
   return (
     <div className={style.cardGroupHeader}>
@@ -88,7 +147,7 @@ function FolderEditBar({ folderId }) {
         <Button shape="Option" onClick={handleRename}>
           <Icon type="pen" /> 이름 변경
         </Button>
-        <Button shape="Option" onClick={handleDelete}>
+        <Button shape="Option" onClick={handleDeleteFolder}>
           <Icon type="delete" /> 삭제
         </Button>
       </div>

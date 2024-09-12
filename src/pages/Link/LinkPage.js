@@ -1,15 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthProvider"; // 추가
+import { useAuth } from "../../contexts/AuthProvider";
 import styles from "./LinkPage.module.scss";
 import Button from "../../components/ui/Button";
 import axios from "../../lib/axios";
 import LinkGroup from "./component/LinkGroup";
-import Pagination from "../../components/ui/Pagination";
 import FolderList from "./component/FolderList";
 import FolderEditBar from "./component/FolderEditBar";
 import Card from "../../components/ui/Card";
 import debounce from "lodash.debounce";
+import { useModal } from "../../contexts/ModalProvider";
 
 function LinkListNone() {
   return (
@@ -20,6 +20,8 @@ function LinkListNone() {
 }
 
 function LinkPage() {
+  const { openModal, closeModal } = useModal();
+
   const { user } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
@@ -33,6 +35,7 @@ function LinkPage() {
     url: "",
   });
   const [folders, setFolders] = useState([]);
+  const [modalFolders, setModalFolders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredLinks, setFilteredLinks] = useState([]);
 
@@ -40,25 +43,62 @@ function LinkPage() {
     setValues((prevValues) => ({ ...prevValues, folderId }));
   }, []);
 
-  const handleSubmit = useCallback(
+  const onAddLinkSubmit = useCallback(async (e) => {
+    e.preventDefault();
+    const { folderId, url } = values;
+    try {
+      await axios.post(`/links`, { folderId, url });
+      setValues({ folderId: folderId, url: "" });
+      alert("링크가 성공적으로 추가되었습니다.");
+      closeModal();
+    } catch (error) {
+      console.error("링크 추가 중 오류 발생:", error);
+      alert("링크 추가 중 오류가 발생했습니다.");
+    }
+  });
+  const onModalAddLinkSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       const { folderId, url } = values;
-      if (!folderId) {
-        alert("폴더를 선택해 주세요.");
+
+      if (!url || url.length === 0) {
+        alert("링크를 입력하세요.");
         return;
       }
-      try {
-        await axios.post(`/links`, { folderId, url });
-        setValues({ folderId: folderId, url: "" });
-        alert("링크가 성공적으로 추가되었습니다.");
-      } catch (error) {
-        console.error("링크 추가 중 오류 발생:", error);
-        alert("링크 추가 중 오류가 발생했습니다.");
+      if (!folderId) {
+        handleAddLinkSubmit(url);
+        return;
       }
+      onAddLinkSubmit();
     },
     [values]
   );
+  const handleAddLinkSubmit = useCallback((url) => {
+    openModal(
+      <>
+        <h5 className={styles.modalTitle}>폴더에 추가</h5>
+        <form onSubmit={onAddLinkSubmit}>
+          <div className={styles.inputGroup}>
+            <p className={styles.subTitle}>{url}</p>
+            <ul>
+              {folders.map((folder) => (
+                <li key={folder.id}>
+                  <label>
+                    <span>{folder.name}</span>
+                    <span>{folder.id}개 링크</span>
+                    <input name="folder" type="radio" />
+                  </label>
+                </li>
+              ))}
+            </ul>
+            <Button type="submit" color="Primary" size="lg">
+              추가하기
+            </Button>
+          </div>
+        </form>
+      </>
+    );
+  }, []);
 
   const getFolders = useCallback(async () => {
     try {
@@ -70,6 +110,15 @@ function LinkPage() {
       alert("폴더 조회 중 오류가 발생했습니다.");
     }
   }, [values.folderId]);
+
+  async function getModalFolders() {
+    try {
+      const res = await axios.get(`/folders`);
+      setModalFolders(res.data);
+    } catch (error) {
+      console.error("폴더 조회 중 오류 발생:", error);
+    }
+  }
 
   const getSearchLinks = useCallback(async () => {
     try {
@@ -108,7 +157,7 @@ function LinkPage() {
   return (
     <>
       <section className={styles.linkHeader}>
-        <form className={styles.linkInputGroup} onSubmit={handleSubmit}>
+        <form className={styles.linkInputGroup} onSubmit={onModalAddLinkSubmit}>
           <input
             className={styles.inputText}
             type="text"
@@ -168,7 +217,6 @@ function LinkPage() {
             )}
           </>
         )}
-        <Pagination />
       </section>
     </>
   );

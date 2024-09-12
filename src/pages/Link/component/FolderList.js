@@ -20,7 +20,7 @@ function FolderList({ onFolderSelect }) {
     }
   }
 
-  async function handleSubmitFolder(e) {
+  async function onSubmitFolder(e) {
     e.preventDefault();
     const folderName = folderNameRef.current.value.trim();
     if (!folderName) {
@@ -31,8 +31,8 @@ function FolderList({ onFolderSelect }) {
       await axios.post(`/folders`, { name: folderName });
       alert("폴더가 생성되었습니다.");
       getFolders();
-      folderNameRef.current.value = ""; // Clear input field after successful creation
-      closeModal(); // Close modal after successful creation
+      folderNameRef.current.value = "";
+      closeModal();
     } catch (error) {
       console.error("폴더 추가 중 오류 발생:", error);
     }
@@ -40,9 +40,9 @@ function FolderList({ onFolderSelect }) {
 
   function handleAddFolder() {
     openModal(
-      <div>
+      <>
         <h5 className={style.modalTitle}>폴더 추가</h5>
-        <form onSubmit={handleSubmitFolder}>
+        <form onSubmit={onSubmitFolder}>
           <div className={style.inputGroup}>
             <input
               className={style.inputText}
@@ -55,7 +55,7 @@ function FolderList({ onFolderSelect }) {
             </Button>
           </div>
         </form>
-      </div>
+      </>
     );
   }
 

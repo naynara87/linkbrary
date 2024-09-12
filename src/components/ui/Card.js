@@ -17,13 +17,11 @@ function Card({
   imageSource,
   description,
   createdAt,
-  onDelete,
 }) {
   const [isFavorite, setIsFavorite] = useState(favorite);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const location = useLocation();
 
-  // Memoize the check for favorite page to prevent unnecessary re-renders
   const isFavoritePage = useMemo(
     () => location.pathname === "/favorite",
     [location.pathname]
@@ -31,7 +29,6 @@ function Card({
 
   const imageSrc = imageSource || defaultImg;
 
-  // Ref to track the dropdown element
   const dropdownRef = useRef(null);
 
   const handleFavoriteToggle = useCallback(async () => {
@@ -53,7 +50,6 @@ function Card({
     setIsDropdownVisible((prev) => !prev);
   }, []);
 
-  // Close dropdown when clicking outside of it
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -65,7 +61,6 @@ function Card({
       document.addEventListener("mousedown", handleClickOutside);
     }
 
-    // Cleanup event listener on unmount or when dropdown is closed
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
@@ -91,7 +86,7 @@ function Card({
               <Button type="button" onClick={toggleDropdown}>
                 <Icon type="more" />
               </Button>
-              {isDropdownVisible && <Dropdown linkId={id} />}
+              {isDropdownVisible && <Dropdown linkId={id} linkUrl={url} />}
             </div>
           )}
         </div>
