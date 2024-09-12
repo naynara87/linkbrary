@@ -1,19 +1,29 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
 import logo from "../../styles/images/logo/logo.svg";
 import Button from "../../components/ui/Button";
 import myprofile from "../../styles/images/icon/icon_myprofile.svg";
 import { useAuth } from "../../contexts/AuthProvider";
+
 function Header() {
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     logout();
+  };
+  const handleLogoClick = () => {
+    if (user) {
+      navigate("/link");
+    } else {
+      navigate("/");
+    }
   };
   return (
     <header className={styles.fixed}>
       <div className={styles.headerContianer}>
         <h1 className={styles.logo}>
-          <Link to="/">
+          <Link onClick={handleLogoClick}>
             <img src={logo} alt="logo" />
           </Link>
         </h1>
