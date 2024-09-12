@@ -4,12 +4,14 @@ import Button from "../../../components/ui/Button";
 import Icon from "../../../components/ui/Icon";
 import axios from "../../../lib/axios";
 import { useModal } from "../../../contexts/ModalProvider";
+import { useToaster } from "../../../contexts/ToasterProvider";
 
 function FolderList({ onFolderSelect }) {
   const [folders, setFolders] = useState([]);
   const [selectedFolderId, setSelectedFolderId] = useState(null);
   const folderNameRef = useRef(null);
   const { openModal, closeModal } = useModal();
+  const toast = useToaster();
 
   async function getFolders() {
     try {
@@ -24,12 +26,12 @@ function FolderList({ onFolderSelect }) {
     e.preventDefault();
     const folderName = folderNameRef.current.value.trim();
     if (!folderName) {
-      alert("폴더명을 입력해 주세요.");
+      toast("warn", "폴더명을 입력해 주세요.");
       return;
     }
     try {
       await axios.post(`/folders`, { name: folderName });
-      alert("폴더가 생성되었습니다.");
+      toast("info", "폴더가 생성되었습니다.");
       getFolders();
       folderNameRef.current.value = "";
       closeModal();

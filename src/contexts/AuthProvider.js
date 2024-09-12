@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../lib/axios";
+import LoadingBar from "../components/ui/LoadingBar";
+import { useToaster } from "../contexts/ToasterProvider";
 
 const AuthContext = createContext({
   user: null,
@@ -15,6 +17,7 @@ export function AuthProvider({ children }) {
     isPending: true,
   });
   const navigate = useNavigate();
+  const toast = useToaster();
 
   async function getMe() {
     setValues((prevValues) => ({
@@ -51,7 +54,7 @@ export function AuthProvider({ children }) {
   }
 
   async function logout() {
-    alert("로그아웃이 되었습니다.");
+    toast("info", "로그아웃이 되었습니다.");
     localStorage.removeItem("accessToken");
     setValues({ user: null, isPending: false });
     navigate("/");
@@ -62,16 +65,19 @@ export function AuthProvider({ children }) {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{
-        user: values.user,
-        isPending: values.isPending,
-        login,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <>
+      {values.isPending && <LoadingBar />}
+      <AuthContext.Provider
+        value={{
+          user: values.user,
+          isPending: values.isPending,
+          login,
+          logout,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    </>
   );
 }
 

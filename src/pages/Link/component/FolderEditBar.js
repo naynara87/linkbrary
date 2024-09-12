@@ -4,11 +4,13 @@ import Button from "../../../components/ui/Button";
 import Icon from "../../../components/ui/Icon";
 import axios from "../../../lib/axios";
 import { useModal } from "../../../contexts/ModalProvider";
+import { useToaster } from "../../../contexts/ToasterProvider";
 
 function FolderEditBar({ folderId }) {
   const [folderName, setFolderName] = useState("");
   const { openModal, closeModal } = useModal();
   const folderNameRef = useRef(null);
+  const toast = useToaster();
 
   const fetchFolderInfo = useCallback(async () => {
     if (folderId) {
@@ -32,12 +34,12 @@ function FolderEditBar({ folderId }) {
     console.log("클릭");
     const newFolderName = folderNameRef.current.value.trim();
     if (!newFolderName) {
-      alert("폴더명을 입력해 주세요.");
+      toast("warn", "폴더명을 입력해 주세요.");
       return;
     }
     try {
       await axios.put(`/folders/${folderId}`, { name: newFolderName });
-      alert("폴더명이 수정되었습니다.");
+      toast("info", "폴더명이 수정되었습니다.");
       fetchFolderInfo();
       closeModal();
     } catch (error) {
@@ -71,7 +73,7 @@ function FolderEditBar({ folderId }) {
     e.preventDefault();
     try {
       await axios.delete(`/folders/${folderId}`);
-      alert("폴더가 삭제되었습니다.");
+      toast("info", "폴더가 삭제되었습니다.");
       fetchFolderInfo();
       closeModal();
     } catch (error) {
