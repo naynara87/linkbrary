@@ -7,9 +7,16 @@
   align-items: center;
   padding: 0 15px;
   height: 93px;
+  @media (max-width: 767px) {
+    padding: 0 24px;
+    height: 63px;
+  }
 }
 .logo {
   width: 133px;
+  @media (max-width: 767px) {
+    width: 88px;
+  }
   img {
     display: flex;
   }
@@ -23,4 +30,7 @@
 .userWrap {
   display: flex;
   gap: 25px;
+  @media (max-width: 767px) {
+    gap: 16px;
+  }
 }

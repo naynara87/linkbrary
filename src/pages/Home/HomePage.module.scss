@@ -14,7 +14,7 @@
     -webkit-background-clip: text;
   }
   .imgContainer {
-    width: 100%;
+    width: 80%;
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -70,4 +70,35 @@
 }
 .infoImg {
   width: 550px;
+}
+
+@media (max-width: 1199px) {
+  .infoImg {
+    width: 65%;
+  }
+}
+@media (max-width: 767px) {
+  .infoWrap {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+    &.reverse {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+  }
+  .infoText {
+    width: 100%;
+    br {
+      display: none;
+    }
+    p {
+      font-size: 15px;
+    }
+  }
+  .infoImg {
+    width: 100%;
+  }
 }

@@ -6,6 +6,10 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  @media (max-width: 767px) {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
 }
 a.underline {
   color: var(--primary-blue);

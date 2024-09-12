@@ -96,10 +96,10 @@ function FolderList({ onFolderSelect }) {
       <Button
         type="button"
         shape="Text"
-        className="mlAuto"
+        color="FolderAdd"
         onClick={handleAddFolder}
       >
-        폴더추가
+        폴더 추가
         <Icon type="plus" />
       </Button>
     </div>

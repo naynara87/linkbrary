@@ -36,13 +36,14 @@ function HomePage() {
         <div className={styles.infoWrap}>
           <div className={styles.infoText}>
             <h3>
-              <em className={styles.point1}>원하는 링크</em>를<br />
+              <em className={styles.point1}>원하는 링크</em>를&nbsp;
+              <br />
               저장하세요
             </h3>
             <p>
-              나중에 읽고 싶은 글, 다시 보고 싶은 영상,
+              나중에 읽고 싶은 글, 다시 보고 싶은 영상,&nbsp;
               <br />
-              사고 싶은 옷, 기억하고 싶은 모든 것을
+              사고 싶은 옷, 기억하고 싶은 모든 것을&nbsp;
               <br />한 공간에 저장하세요.
             </p>
           </div>
@@ -53,12 +54,12 @@ function HomePage() {
         <div className={`${styles.infoWrap} ${styles.reverse}`}>
           <div className={styles.infoText}>
             <h3>
-              링크를 폴더로
+              링크를 폴더로&nbsp;
               <br />
               <em className={styles.point2}>관리</em>하세요
             </h3>
             <p>
-              나만의 폴더를 무제한으로 만들고
+              나만의 폴더를 무제한으로 만들고&nbsp;
               <br />
               다양하게 활용할 수 있습니다.
             </p>
@@ -70,12 +71,12 @@ function HomePage() {
         <div className={styles.infoWrap}>
           <div className={styles.infoText}>
             <h3>
-              저장한 링크를
+              저장한 링크를&nbsp;
               <br />
               <em className={styles.point3}>공유</em>해 보세요
             </h3>
             <p>
-              여러 링크를 폴더에 담고 공유할 수<br />
+              여러 링크를 폴더에 담고 공유할 수 <br />
               있습니다. 가족, 친구, 동료들에게 쉽고
               <br />
               빠르게 링크를 공유해 보세요.
@@ -88,12 +89,12 @@ function HomePage() {
         <div className={`${styles.infoWrap} ${styles.reverse}`}>
           <div className={styles.infoText}>
             <h3>
-              저장한 링크를
+              저장한 링크를&nbsp;
               <br />
               <em className={styles.point4}>검색</em>해 보세요
             </h3>
             <p>
-              중요한 정보들을 검색으로 쉽게
+              중요한 정보들을 검색으로 쉽게&nbsp;
               <br />
               찾아보세요.
             </p>
