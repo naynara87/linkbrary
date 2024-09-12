@@ -38,11 +38,11 @@ function Card({
       const newFavoriteStatus = !isFavorite;
       await axios.put(`/links/${id}/favorite`, { favorite: newFavoriteStatus });
       setIsFavorite(newFavoriteStatus);
-      toast("info", "즐겨찾기로 추가되었습니다.");
+      toast("info", "즐겨찾기가 추가되었습니다.");
     } catch (error) {
       console.error("즐겨찾기 상태 업데이트 중 오류 발생:", error);
     }
-  }, [id, isFavorite]);
+  }, [id, isFavorite, toast]);
 
   const imgError = useCallback((e) => {
     e.target.src = defaultImg;
