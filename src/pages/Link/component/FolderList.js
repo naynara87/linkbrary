@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import style from "./FolderList.module.scss";
 import Button from "../../../components/ui/Button";
 import Icon from "../../../components/ui/Icon";
@@ -8,8 +8,8 @@ import { useModal } from "../../../contexts/ModalProvider";
 function FolderList({ onFolderSelect }) {
   const [folders, setFolders] = useState([]);
   const [selectedFolderId, setSelectedFolderId] = useState(null);
-  const [values, setValues] = useState({ name: "" });
-  const { openModal } = useModal();
+  const folderNameRef = useRef(null);
+  const { openModal, closeModal } = useModal();
 
   async function getFolders() {
     try {
@@ -22,11 +22,17 @@ function FolderList({ onFolderSelect }) {
 
   async function handleSubmitFolder(e) {
     e.preventDefault();
+    const folderName = folderNameRef.current.value.trim();
+    if (!folderName) {
+      alert("폴더명을 입력해 주세요.");
+      return;
+    }
     try {
-      await axios.post(`/folders`, { name: values.name });
+      await axios.post(`/folders`, { name: folderName });
       alert("폴더가 생성되었습니다.");
       getFolders();
-      setValues({ name: "" });
+      folderNameRef.current.value = ""; // Clear input field after successful creation
+      closeModal(); // Close modal after successful creation
     } catch (error) {
       console.error("폴더 추가 중 오류 발생:", error);
     }
@@ -42,8 +48,7 @@ function FolderList({ onFolderSelect }) {
               className={style.inputText}
               type="text"
               placeholder="내용 입력"
-              value={values.name}
-              onChange={(e) => setValues({ ...values, name: e.target.value })}
+              ref={folderNameRef}
             />
             <Button type="submit" color="Primary" size="lg">
               추가하기
