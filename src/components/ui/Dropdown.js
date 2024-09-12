@@ -11,37 +11,44 @@ function Dropdown({ linkId, linkUrl: initialLinkUrl }) {
   const { openModal, closeModal } = useModal();
   const toast = useToaster();
 
-  async function onDeleteLink(e) {
-    e.preventDefault();
-    try {
-      await axios.delete(`/links/${linkId}`);
-      toast("info", "링크가 삭제되었습니다.");
-    } catch (error) {
-      console.error("링크 삭제 중 오류 발생:", error);
-      toast("warn", "링크 삭제에 실패했습니다.");
-    } finally {
-      closeModal();
-    }
-  }
+  const onDeleteLink = useCallback(
+    async (e) => {
+      e.preventDefault();
+      try {
+        await axios.delete(`/links/${linkId}`);
+        toast("info", "링크가 삭제되었습니다.");
+      } catch (error) {
+        console.error("링크 삭제 중 오류 발생:", error);
+        toast("warn", "링크 삭제에 실패했습니다.");
+      } finally {
+        closeModal();
+      }
+    },
+    [linkId, toast, closeModal]
+  );
 
-  async function onEditLink(e) {
-    e.preventDefault();
-    const newLinkUrl = linkUrlRef.current.value.trim();
+  const onEditLink = useCallback(
+    async (e) => {
+      e.preventDefault();
+      const newLinkUrl = linkUrlRef.current.value.trim();
 
-    if (!newLinkUrl) {
-      toast("warn", "링크 이름을 입력해 주세요.");
-      return;
-    }
+      if (!newLinkUrl) {
+        toast("warn", "링크 이름을 입력해 주세요.");
+        return;
+      }
 
-    try {
-      await axios.put(`/links/${linkId}`, { url: newLinkUrl });
-      toast("info", "링크가 수정되었습니다.");
-      closeModal();
-    } catch (error) {
-      console.error("링크 수정 중 오류 발생:", error);
-      toast("warn", "링크 수정에 실패했습니다.");
-    }
-  }
+      try {
+        await axios.put(`/links/${linkId}`, { url: newLinkUrl });
+        toast("info", "링크가 수정되었습니다.");
+        closeModal();
+      } catch (error) {
+        console.error("링크 수정 중 오류 발생:", error);
+        toast("warn", "링크 수정에 실패했습니다.");
+      }
+    },
+    [linkId, toast, closeModal]
+  );
+
   const handleDeleteLink = useCallback(() => {
     openModal(
       <>

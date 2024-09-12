@@ -86,8 +86,8 @@ function FolderEditBar({ folderId }) {
         <h5 className={style.modalTitle}>폴더 삭제</h5>
         <form onSubmit={onDeleteFolder}>
           <div className={style.inputGroup}>
-            <p class={style.subTitle}>{folderName}</p>
-            <Button type="button" color="Delete" size="lg">
+            <p className={style.subTitle}>{folderName}</p>
+            <Button type="submit" color="Delete" size="lg">
               삭제하기
             </Button>
           </div>
@@ -101,7 +101,7 @@ function FolderEditBar({ folderId }) {
       <>
         <h5 className={style.modalTitle}>폴더 공유</h5>
         <div className={style.inputGroup}>
-          <p class={style.subTitle}>{folderName}</p>
+          <p className={style.subTitle}>{folderName}</p>
           <ul className={style.shareLinks}>
             <li>
               <Button
