@@ -9,6 +9,7 @@ import Pagination from "../../components/ui/Pagination";
 import FolderList from "./component/FolderList";
 import FolderEditBar from "./component/FolderEditBar";
 import Card from "../../components/ui/Card";
+import debounce from "lodash.debounce";
 
 function LinkListNone() {
   return (
@@ -70,7 +71,7 @@ function LinkPage() {
     }
   }, [values.folderId]);
 
-  const getLinks = useCallback(async () => {
+  const getSearchLinks = useCallback(async () => {
     try {
       const res = await axios.get(`/links?search=${searchTerm}`);
       setFilteredLinks(res.data.list || []);
@@ -82,15 +83,24 @@ function LinkPage() {
 
   useEffect(() => {
     if (searchTerm) {
-      getLinks();
+      getSearchLinks();
     } else {
       getFolders();
     }
-  }, [searchTerm, getLinks, getFolders]);
+  }, [searchTerm, getSearchLinks, getFolders]);
 
-  const handleSearchChange = useCallback((e) => {
-    setSearchTerm(e.target.value.toLowerCase());
-  }, []);
+  const debouncedSearch = useCallback(
+    debounce((term) => {
+      setSearchTerm(term.toLowerCase());
+    }, 300),
+    []
+  );
+  const handleSearchChange = useCallback(
+    (e) => {
+      debouncedSearch(e.target.value);
+    },
+    [debouncedSearch]
+  );
 
   const hasSearchTerm = searchTerm.length > 0;
   const noResults = filteredLinks.length === 0 && hasSearchTerm;
