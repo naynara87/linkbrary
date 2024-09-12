@@ -8,12 +8,14 @@ import styles from "./SignupPage.module.scss";
 import logo from "../../styles/images/logo/logo.svg";
 import Icon from "../../components/ui/Icon";
 import Button from "../../components/ui/Button";
+import { useToaster } from "../../contexts/ToasterProvider";
 
 function SignupPage() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [passwordConfirmVisible, setPasswordConfirmVisible] = useState(false);
   const navigate = useNavigate();
   const { user, login } = useAuth();
+  const toast = useToaster();
 
   const {
     register,
@@ -22,20 +24,6 @@ function SignupPage() {
     formState: { errors },
     watch,
   } = useForm();
-
-  // const checkEmailDuplication = async (email) => {
-  //   try {
-  //     const response = await axios.post("/users/check-email", { email });
-  //     console.log(response);
-  //     if (response) {
-  //       return "이미 사용 중인 이메일입니다.";
-  //     }
-  //     return true;
-  //   } catch (error) {
-  //     console.error("이메일 중복 체크 중 에러 발생:", error);
-  //     return "이메일 중복 체크에 실패했습니다.";
-  //   }
-  // };
 
   const onSubmit = async (data) => {
     try {
@@ -46,13 +34,13 @@ function SignupPage() {
 
       if (res.data.token) {
         localStorage.setItem("accessToken", res.data.token);
-        alert("회원가입이 완료되었습니다!");
+        toast("info", "회원가입이 완료되었습니다!");
       }
       await login({ email: userData.email, password: userData.password });
       navigate("/link");
     } catch (error) {
       console.error("회원가입 중 에러 발생:", error);
-      alert("회원가입에 실패했습니다.");
+      toast("warn", "회원가입에 실패했습니다.");
     }
   };
 

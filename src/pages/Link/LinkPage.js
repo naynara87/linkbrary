@@ -10,6 +10,7 @@ import FolderEditBar from "./component/FolderEditBar";
 import Card from "../../components/ui/Card";
 import debounce from "lodash.debounce";
 import { useModal } from "../../contexts/ModalProvider";
+import { useToaster } from "../../contexts/ToasterProvider";
 
 function LinkListNone() {
   return (
@@ -24,6 +25,7 @@ function LinkPage() {
 
   const { user } = useAuth();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -38,6 +40,7 @@ function LinkPage() {
   const [modalFolders, setModalFolders] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredLinks, setFilteredLinks] = useState([]);
+  const toast = useToaster();
 
   const handleFolderSelect = useCallback((folderId) => {
     setValues((prevValues) => ({ ...prevValues, folderId }));
@@ -49,11 +52,11 @@ function LinkPage() {
     try {
       await axios.post(`/links`, { folderId, url });
       setValues({ folderId: folderId, url: "" });
-      alert("링크가 성공적으로 추가되었습니다.");
+      toast("info", "링크가 성공적으로 추가되었습니다.");
       closeModal();
     } catch (error) {
       console.error("링크 추가 중 오류 발생:", error);
-      alert("링크 추가 중 오류가 발생했습니다.");
+      toast("warn", "링크 추가 중 오류가 발생했습니다.");
     }
   });
   const onModalAddLinkSubmit = useCallback(
@@ -62,7 +65,7 @@ function LinkPage() {
       const { folderId, url } = values;
 
       if (!url || url.length === 0) {
-        alert("링크를 입력하세요.");
+        toast("warn", "링크를 입력하세요.");
         return;
       }
       if (!folderId) {
@@ -107,7 +110,7 @@ function LinkPage() {
       setFolders(Array.isArray(res.data) ? res.data : [res.data]);
     } catch (error) {
       console.error("폴더 조회 중 오류 발생:", error);
-      alert("폴더 조회 중 오류가 발생했습니다.");
+      toast("warn", "폴더 조회 중 오류가 발생했습니다.");
     }
   }, [values.folderId]);
 
@@ -126,7 +129,7 @@ function LinkPage() {
       setFilteredLinks(res.data.list || []);
     } catch (error) {
       console.error("링크 조회 중 오류 발생:", error);
-      alert("링크 조회 중 오류가 발생했습니다.");
+      toast("warn", "링크 조회 중 오류가 발생했습니다.");
     }
   }, [searchTerm]);
 
