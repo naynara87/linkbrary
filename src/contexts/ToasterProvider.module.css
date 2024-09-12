@@ -5,11 +5,12 @@
   gap: 24px;
   justify-content: center;
   align-items: center;
-  top: 64px;
+  top: 17vh;
   left: 50%;
   transform: translateX(-50%);
   pointer-events: none;
   transition: height 0.5s ease-in-out;
+  z-index: 9999;
 }
 
 .Toast {
@@ -36,13 +37,13 @@
 }
 
 .Toast.info {
-  color: #FFFFFF;
-  background-color: #299D65;
+  color: #ffffff;
+  background-color: #299d65;
 }
 
 .Toast.warn {
-  color: #FFFFFF;
-  background-color: #FF5733;
+  color: #ffffff;
+  background-color: #ff5733;
 }
 
 .Icon {

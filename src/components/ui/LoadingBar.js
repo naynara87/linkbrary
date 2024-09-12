@@ -1,6 +1,6 @@
-import style from "./Loading.module.scss";
+import style from "./LoadingBar.module.scss";
 
-function Loading() {
+function LoadingBar() {
   return (
     <div className={style.loadingWrap}>
       <div className={style.loader}>Loading...</div>
@@ -8,4 +8,4 @@ function Loading() {
   );
 }
 
-export default Loading;
+export default LoadingBar;

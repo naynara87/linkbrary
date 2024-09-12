@@ -1,3 +1,6 @@
+@import "../../components/ui/Modal.module.scss";
+@import "../../components/form/Form.module.scss";
+@import "../../components/ui/CardGroup.module.scss";
 .linkHeader {
   background: var(--gray100);
   padding: 180px 0 90px;
@@ -62,7 +65,7 @@
     text-align: center;
   }
 }
-.seachTerm {
+.searchTerm {
   font-size: 32px;
   color: var(--gray60);
   margin-bottom: 40px;
@@ -70,4 +73,9 @@
     color: var(--gray500);
   }
 }
-@import "../../components/ui/CardGroup.module.scss";
+
+.inputGroup {
+  button {
+    width: 100%;
+  }
+}

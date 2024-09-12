@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../lib/axios";
+import LoadingBar from "../components/ui/LoadingBar";
+import { useToaster } from "../contexts/ToasterProvider";
 
 const AuthContext = createContext({
   user: null,
@@ -15,16 +17,19 @@ export function AuthProvider({ children }) {
     isPending: true,
   });
   const navigate = useNavigate();
+  const toast = useToaster();
 
   async function getMe() {
     setValues((prevValues) => ({
       ...prevValues,
       isPending: true,
     }));
-    let nextUser;
+    let nextUser = null;
     try {
       const res = await axios.get("/users");
       nextUser = res.data;
+    } catch (error) {
+      console.error("사용자 정보를 불러오지 못했습니다:", error);
     } finally {
       setValues((prevValues) => ({
         ...prevValues,
@@ -49,27 +54,30 @@ export function AuthProvider({ children }) {
   }
 
   async function logout() {
-    alert("로그아웃이 되었습니다.");
+    toast("info", "로그아웃이 되었습니다.");
     localStorage.removeItem("accessToken");
     setValues({ user: null, isPending: false });
     navigate("/");
   }
 
-  // useEffect(() => {
-  //   getMe();
-  // }, []);
+  useEffect(() => {
+    getMe();
+  }, []);
 
   return (
-    <AuthContext.Provider
-      value={{
-        user: values.user,
-        isPending: values.isPending,
-        login,
-        logout,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+    <>
+      {values.isPending && <LoadingBar />}
+      <AuthContext.Provider
+        value={{
+          user: values.user,
+          isPending: values.isPending,
+          login,
+          logout,
+        }}
+      >
+        {children}
+      </AuthContext.Provider>
+    </>
   );
 }
 

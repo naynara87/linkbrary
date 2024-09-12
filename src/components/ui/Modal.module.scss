@@ -26,14 +26,17 @@
 }
 
 .modalTitle {
-  margin-bottom: 23px;
+  font-size: 20px;
 }
 .modalContents {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.folderName {
+.subTitle {
   font-size: 14px;
   color: var(--gray400);
+  margin-top: -10px;
+  margin-bottom: 24px;
+  word-break: break-word;
 }

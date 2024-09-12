@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthProvider";
@@ -19,25 +19,29 @@ function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  async function onSubmit(data) {
-    const { email, password } = data;
-    try {
-      await login({ email, password });
-      navigate("/link");
-    } catch (error) {
-      console.error("로그인 실패:", error);
-      alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
-    }
-  }
+  const togglePasswordVisibility = useCallback(() => {
+    setPasswordVisible((prev) => !prev);
+  }, []);
+
+  const onSubmit = useCallback(
+    async (data) => {
+      const { email, password } = data;
+      try {
+        await login({ email, password });
+      } catch (error) {
+        console.error("로그인 실패:", error);
+        alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.");
+      }
+    },
+    [login]
+  );
+
   useEffect(() => {
     if (user) {
-      navigate("/");
+      navigate("/link");
     }
   }, [user, navigate]);
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible((prev) => !prev);
-  };
   return (
     <form className={styles.mainForm} onSubmit={handleSubmit(onSubmit)}>
       <div className={styles.formWrap}>
@@ -53,15 +57,17 @@ function LoginPage() {
           </Link>
         </p>
       </div>
+
       <div
         className={classNames(styles.inputGroup, {
           [styles.is_valid_error]: errors.email,
         })}
       >
-        <label>이메일</label>
+        <label htmlFor="email">이메일</label>
         <input
+          id="email"
           className={styles.inputText}
-          type="text"
+          type="email"
           placeholder="이메일을 작성해주세요."
           {...register("email", {
             required: "이메일을 입력해주세요.",
@@ -75,14 +81,16 @@ function LoginPage() {
           <p className={styles.is_valid_errorText}>{errors.email.message}</p>
         )}
       </div>
+
       <div
         className={classNames(styles.inputGroup, {
           [styles.is_valid_error]: errors.password,
         })}
       >
-        <label>비밀번호</label>
+        <label htmlFor="password">비밀번호</label>
         <div className={styles.inputGroup}>
           <input
+            id="password"
             className={styles.inputText}
             type={passwordVisible ? "text" : "password"}
             placeholder="비밀번호를 작성해주세요."
@@ -109,9 +117,11 @@ function LoginPage() {
           <p className={styles.is_valid_errorText}>{errors.password.message}</p>
         )}
       </div>
+
       <Button type="submit" size="lg" color="Primary">
         로그인
       </Button>
+
       <div className={styles.snsWrap}>
         소셜로그인
         <div className={styles.buttonGroup}>
