@@ -1,4 +1,5 @@
-@import "../../styles/scss/components/form.scss";
+@import "../../components/ui/Modal.module.scss";
+@import "../../components/form/Form.module.scss";
 .buttonGroup {
   display: flex;
   gap: 16px;

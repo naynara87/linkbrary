@@ -47,7 +47,18 @@ i.icon_sm {
 .ic_kakao {
   background-image: url("#{$iconUrl}/icon_kakao.png");
 }
-
+.ic_kakaoColor {
+  background-image: url("#{$iconUrl}/icon_kakao-color.svg");
+}
+.ic_facebookColor {
+  background-image: url("#{$iconUrl}/icon_facebook-color.svg");
+}
+.ic_linkColor {
+  background-image: url("#{$iconUrl}/icon_link-color.svg");
+}
+.ic_link {
+  background-image: url("#{$iconUrl}/icon_link.svg");
+}
 .ic_visible_on {
   background-image: url("#{$iconUrl}/icon_eye-on.svg");
 }
