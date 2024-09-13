@@ -6,65 +6,75 @@ import Button from "../../components/ui/Button";
 import axios from "../../lib/axios";
 import LinkGroup from "./component/LinkGroup";
 import FolderList from "./component/FolderList";
-import FolderEditBar from "./component/FolderEditBar";
-import Card from "../../components/ui/Card";
+import LinkCard from "./component/LinkCard";
 import debounce from "lodash.debounce";
 import { useModal } from "../../contexts/ModalProvider";
 import { useToaster } from "../../contexts/ToasterProvider";
 
+// 링크가 없을 때 컴포넌트
 function LinkListNone() {
   return (
     <div className={styles.searchNone}>
-      <p>저장된 링크가 없습니다</p>
+      <p>검색한 링크가 없습니다.</p>
     </div>
   );
 }
 
-function LinkPage() {
-  const { openModal, closeModal } = useModal();
+// 링크 추가 폼 컴포넌트
+const LinkAddForm = ({ onSubmit, value, onChange }) => (
+  <form className={styles.linkInputGroup} onSubmit={onSubmit}>
+    <input
+      className={styles.inputText}
+      type="text"
+      placeholder="링크를 추가해 보세요"
+      value={value}
+      onChange={onChange}
+    />
+    <Button type="submit" size="sm" color="Primary" aria-label="링크 추가 버튼">
+      추가하기
+    </Button>
+  </form>
+);
 
+// 검색 입력 필드 컴포넌트
+const SearchInput = ({ onChange }) => (
+  <div className={styles.linkSearchGroup}>
+    <input
+      className={styles.linkSearch}
+      placeholder="링크를 검색해 보세요."
+      onChange={onChange}
+    />
+  </div>
+);
+
+function LinkPage() {
+  const { closeModal } = useModal();
   const { user } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-    }
-  }, [user, navigate]);
-
-  const [values, setValues] = useState({
-    folderId: null,
-    url: "",
-  });
-  const [folders, setFolders] = useState([]);
-  const [modalFolders, setModalFolders] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredLinks, setFilteredLinks] = useState([]);
   const toast = useToaster();
 
+  const [values, setValues] = useState({ folderId: null, url: "" });
+  const [folders, setFolders] = useState([]);
+  const [selectedFolderId, setSelectedFolderId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredLinks, setFilteredLinks] = useState([]);
+  const [updateLink, setUpdateLink] = useState(false);
+
+  useEffect(() => {
+    if (!user) navigate("/login");
+  }, [user, navigate]);
+
   const handleFolderSelect = useCallback((folderId) => {
+    setSelectedFolderId(folderId);
     setValues((prevValues) => ({ ...prevValues, folderId }));
   }, []);
 
-  const onAddLinkSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    const { folderId, url } = values;
-    try {
-      await axios.post(`/links`, { folderId, url });
-      setValues({ folderId: folderId, url: "" });
-      toast("info", "링크가 성공적으로 추가되었습니다.");
-      closeModal();
-    } catch (error) {
-      console.error("링크 추가 중 오류 발생:", error);
-      toast("warn", "링크 추가 중 오류가 발생했습니다.");
-    }
-  });
-  const onModalAddLinkSubmit = useCallback(
+  const onAddLinkSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       const { folderId, url } = values;
 
-      if (!url || url.length === 0) {
+      if (!url) {
         toast("warn", "링크를 입력하세요.");
         return;
       }
@@ -72,31 +82,46 @@ function LinkPage() {
         toast("warn", "폴더를 선택하세요.");
         return;
       }
-      onAddLinkSubmit(e);
+      try {
+        await axios.post(`/links`, { folderId, url });
+        setValues((prev) => ({ ...prev, url: "" }));
+        toast("info", "링크가 성공적으로 추가되었습니다.");
+        setUpdateLink((prev) => !prev);
+      } catch (error) {
+        console.error("링크 추가 중 오류 발생:", error);
+        toast("warn", "링크 추가 중 오류가 발생했습니다.");
+      } finally {
+        closeModal();
+      }
     },
-    [values, onAddLinkSubmit, toast]
+    [values, toast, closeModal]
   );
-  const getFolders = useCallback(async () => {
-    try {
-      const url = values.folderId ? `/folders/${values.folderId}` : `/folders`;
-      const res = await axios.get(url);
-      setFolders(Array.isArray(res.data) ? res.data : [res.data]);
-    } catch (error) {
-      console.error("폴더 조회 중 오류 발생:", error);
-      toast("warn", "폴더 조회 중 오류가 발생했습니다.");
-    }
-  }, [values.folderId]);
 
-  async function getModalFolders() {
+  const fetchFolders = useCallback(async () => {
     try {
       const res = await axios.get(`/folders`);
-      setModalFolders(res.data);
+      setFolders(Array.isArray(res.data) ? res.data : [res.data]);
     } catch (error) {
-      console.error("폴더 조회 중 오류 발생:", error);
+      console.error("모든 폴더 조회 중 오류 발생:", error);
+      toast("warn", "모든 폴더 조회 중 오류가 발생했습니다.");
     }
-  }
+  }, [toast]);
 
-  const getSearchLinks = useCallback(async () => {
+  const fetchLinksByFolder = useCallback(async () => {
+    if (!selectedFolderId) return;
+
+    try {
+      const res = await axios.get(`/folders/${selectedFolderId}`);
+      setFilteredLinks(res.data.links || []);
+    } catch (error) {
+      console.error("특정 폴더 조회 중 오류 발생:", error);
+      toast("warn", "특정 폴더 조회 중 오류가 발생했습니다.");
+    }
+  }, [selectedFolderId, toast]);
+
+  const fetchSearchLinks = useCallback(async () => {
+    if (!searchTerm) return;
+
     try {
       const res = await axios.get(`/links?search=${searchTerm}`);
       setFilteredLinks(res.data.list || []);
@@ -104,22 +129,29 @@ function LinkPage() {
       console.error("링크 조회 중 오류 발생:", error);
       toast("warn", "링크 조회 중 오류가 발생했습니다.");
     }
-  }, [searchTerm]);
+  }, [searchTerm, toast]);
 
   useEffect(() => {
     if (searchTerm) {
-      getSearchLinks();
+      fetchSearchLinks();
+    } else if (selectedFolderId) {
+      fetchLinksByFolder();
     } else {
-      getFolders();
+      fetchFolders();
     }
-  }, [searchTerm, getSearchLinks, getFolders]);
+  }, [
+    searchTerm,
+    selectedFolderId,
+    fetchSearchLinks,
+    fetchLinksByFolder,
+    fetchFolders,
+  ]);
 
   const debouncedSearch = useCallback(
-    debounce((term) => {
-      setSearchTerm(term.toLowerCase());
-    }, 300),
+    debounce((term) => setSearchTerm(term.toLowerCase()), 300),
     []
   );
+
   const handleSearchChange = useCallback(
     (e) => {
       debouncedSearch(e.target.value);
@@ -133,34 +165,17 @@ function LinkPage() {
   return (
     <>
       <section className={styles.linkHeader}>
-        <form className={styles.linkInputGroup} onSubmit={onModalAddLinkSubmit}>
-          <input
-            className={styles.inputText}
-            type="text"
-            placeholder="링크를 추가해 보세요"
-            value={values.url}
-            onChange={(e) =>
-              setValues((prev) => ({ ...prev, url: e.target.value }))
-            }
-          />
-          <Button
-            type="submit"
-            size="sm"
-            color="Primary"
-            aria-label="링크 추가 버튼"
-          >
-            추가하기
-          </Button>
-        </form>
+        <LinkAddForm
+          onSubmit={onAddLinkSubmit}
+          value={values.url}
+          onChange={(e) =>
+            setValues((prev) => ({ ...prev, url: e.target.value }))
+          }
+        />
       </section>
       <section className={styles.linkContents}>
-        <div className={styles.linkSearchGroup}>
-          <input
-            className={styles.linkSearch}
-            placeholder="링크를 검색해 보세요."
-            onChange={handleSearchChange}
-          />
-        </div>
+        <SearchInput onChange={handleSearchChange} />
+
         {hasSearchTerm ? (
           <>
             <h5 className={styles.searchTerm}>
@@ -169,26 +184,39 @@ function LinkPage() {
             {noResults ? (
               <LinkListNone />
             ) : (
-              <>
-                <FolderEditBar />
-                <div className={styles.cardGroup}>
-                  <div className={styles.cardList}>
-                    {filteredLinks.map((link) => (
-                      <Card key={link.id} {...link} />
-                    ))}
-                  </div>
+              <div className={styles.cardGroup}>
+                <div className={styles.cardList}>
+                  {filteredLinks.map((link) => (
+                    <LinkCard key={link.id} {...link} />
+                  ))}
                 </div>
-              </>
+              </div>
             )}
           </>
         ) : (
           <>
-            <FolderList onFolderSelect={handleFolderSelect} />
-            {folders.length === 0 ? (
+            <FolderList
+              onFolderSelect={handleFolderSelect}
+              getFolders={fetchFolders}
+              folders={folders}
+            />
+            {selectedFolderId ? (
+              <LinkGroup
+                key={selectedFolderId}
+                folderId={selectedFolderId}
+                updateLink={updateLink}
+                getFolders={fetchFolders}
+              />
+            ) : folders.length === 0 ? (
               <LinkListNone />
             ) : (
               folders.map((folder) => (
-                <LinkGroup key={folder.id} folderId={folder.id} />
+                <LinkGroup
+                  key={folder.id}
+                  folderId={folder.id}
+                  updateLink={updateLink}
+                  getFolders={fetchFolders}
+                />
               ))
             )}
           </>

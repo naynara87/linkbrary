@@ -4,11 +4,11 @@ import { LinkProvider } from "./contexts/LinkProvider";
 
 function Providers({ children }) {
   return (
-    <ToasterProvider>
-      <LinkProvider>
+    <LinkProvider>
+      <ToasterProvider>
         <AuthProvider>{children}</AuthProvider>
-      </LinkProvider>
-    </ToasterProvider>
+      </ToasterProvider>
+    </LinkProvider>
   );
 }
 

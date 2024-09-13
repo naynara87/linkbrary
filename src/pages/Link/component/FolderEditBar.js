@@ -6,7 +6,7 @@ import axios from "../../../lib/axios";
 import { useModal } from "../../../contexts/ModalProvider";
 import { useToaster } from "../../../contexts/ToasterProvider";
 
-function FolderEditBar({ folderId }) {
+function FolderEditBar({ folderId, onDeleteFolder, getFolders }) {
   const [folderName, setFolderName] = useState("");
   const { openModal, closeModal } = useModal();
   const folderNameRef = useRef(null);
@@ -31,7 +31,6 @@ function FolderEditBar({ folderId }) {
 
   async function onSubmitRenameFolder(e) {
     e.preventDefault();
-    console.log("클릭");
     const newFolderName = folderNameRef.current.value.trim();
     if (!newFolderName) {
       toast("warn", "폴더명을 입력해 주세요.");
@@ -40,10 +39,12 @@ function FolderEditBar({ folderId }) {
     try {
       await axios.put(`/folders/${folderId}`, { name: newFolderName });
       toast("info", "폴더명이 수정되었습니다.");
+      await getFolders();
       fetchFolderInfo();
-      closeModal();
     } catch (error) {
       console.error("폴더 이름 변경 중 오류 발생:", error);
+    } finally {
+      closeModal();
     }
   }
 
@@ -69,22 +70,23 @@ function FolderEditBar({ folderId }) {
     );
   }, [openModal, folderName, onSubmitRenameFolder]);
 
-  async function onDeleteFolder(e) {
+  async function onDeleteFolders(e) {
     e.preventDefault();
     try {
       await axios.delete(`/folders/${folderId}`);
       toast("info", "폴더가 삭제되었습니다.");
-      fetchFolderInfo();
-      closeModal();
+      getFolders();
     } catch (error) {
       console.error("폴더 삭제 중 오류 발생:", error);
+    } finally {
+      closeModal();
     }
   }
   const handleDeleteFolder = useCallback(() => {
     openModal(
       <>
         <h5 className={style.modalTitle}>폴더 삭제</h5>
-        <form onSubmit={onDeleteFolder}>
+        <form onSubmit={onDeleteFolders}>
           <div className={style.inputGroup}>
             <p className={style.subTitle}>{folderName}</p>
             <Button type="submit" color="Delete" size="lg">

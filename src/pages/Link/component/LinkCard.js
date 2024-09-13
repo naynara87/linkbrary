@@ -10,7 +10,7 @@ import formatDate from "../../../lib/util/formatDate";
 import axios from "../../../lib/axios";
 import { useToaster } from "../../../contexts/ToasterProvider";
 
-function Card({
+function LinkCard({
   id,
   favorite,
   url,
@@ -18,6 +18,7 @@ function Card({
   imageSource,
   description,
   createdAt,
+  fetchLinks,
 }) {
   const [isFavorite, setIsFavorite] = useState(favorite);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
@@ -38,7 +39,11 @@ function Card({
       const newFavoriteStatus = !isFavorite;
       await axios.put(`/links/${id}/favorite`, { favorite: newFavoriteStatus });
       setIsFavorite(newFavoriteStatus);
-      toast("info", "즐겨찾기가 추가되었습니다.");
+      if (!isFavorite) {
+        toast("info", "즐겨찾기가 추가되었습니다.");
+      } else {
+        toast("warn", "즐겨찾기가 삭제되었습니다.");
+      }
     } catch (error) {
       console.error("즐겨찾기 상태 업데이트 중 오류 발생:", error);
     }
@@ -83,7 +88,9 @@ function Card({
               <Button type="button" onClick={toggleDropdown}>
                 <Icon type="more" />
               </Button>
-              {isDropdownVisible && <Dropdown linkId={id} linkUrl={url} />}
+              {isDropdownVisible && (
+                <Dropdown linkId={id} linkUrl={url} fetchLinks={fetchLinks} />
+              )}
             </div>
           )}
         </div>
@@ -101,4 +108,4 @@ function Card({
   );
 }
 
-export default Card;
+export default LinkCard;

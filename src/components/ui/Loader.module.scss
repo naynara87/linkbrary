@@ -1,8 +1,8 @@
 .loader,
 .loader:after {
   border-radius: 50%;
-  width: 16px;
-  height: 16px;
+  width: 30px;
+  height: 30px;
 }
 .loader {
   position: absolute;
@@ -11,10 +11,10 @@
   font-size: 10px;
   position: relative;
   text-indent: -9999em;
-  border-top: 0.8em solid var(--white);
-  border-right: 0.8em solid var(--white);
-  border-bottom: 0.8em solid var(--white);
-  border-left: 0.8em solid transparent;
+  border-top: 0.4em solid var(--gray300);
+  border-right: 0.4em solid var(--gray300);
+  border-bottom: 0.4em solid var(--gray300);
+  border-left: 0.4em solid transparent;
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
