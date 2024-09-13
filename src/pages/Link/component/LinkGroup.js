@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import style from "./LinkGroup.module.scss";
-import Card from "../../../components/ui/Card";
+import Card from "./LinkCard";
 import FolderEditBar from "./FolderEditBar";
 import axios from "../../../lib/axios";
 

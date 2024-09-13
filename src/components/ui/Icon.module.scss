@@ -68,6 +68,9 @@ i.icon_sm {
 }
 .ic_plus {
   background-image: url("#{$iconUrl}/icon_add.svg");
+  @media (max-width: 767px) {
+    background-image: url("#{$iconUrl}/icon_add-white.svg");
+  }
 }
 .ic_star {
   background-image: url("#{$iconUrl}/icon_star.svg");

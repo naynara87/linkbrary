@@ -6,11 +6,19 @@
   &.size_lg {
     font-size: 18px;
     padding: 0.8em 0;
+    @media (max-width: 767px) {
+      font-size: 16px;
+    }
   }
   &.size_md {
     font-size: 16px;
     padding: 0.8em 0;
     width: 120px;
+    @media (max-width: 767px) {
+      padding: 0.8em 1em;
+      width: auto;
+      font-size: 14px;
+    }
   }
   &.size_sm {
     font-size: 14px;
@@ -71,10 +79,29 @@
     border-radius: 100%;
   }
   p {
+    @media (max-width: 767px) {
+      display: none;
+    }
     flex: none;
   }
 }
 .buttonDelete {
   background: var(--error);
   color: #fff;
+}
+.buttonFolderAdd {
+  margin-left: auto;
+  @media (max-width: 767px) {
+    position: fixed;
+    z-index: 9;
+    left: 50%;
+    bottom: 30px;
+    width: auto;
+    transform: translate(-50%, 0);
+    color: var(--white);
+    background-color: var(--primary-blue);
+    border-radius: 3em;
+    padding: 0.5em 1.2em;
+    box-shadow: var(--box-shadow);
+  }
 }

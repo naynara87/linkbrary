@@ -3,7 +3,7 @@ import style from "./CardGroup.module.scss";
 import Card from "./Card";
 import FolderEditBar from "./FolderEditBar";
 import { useState, useEffect, useCallback, useMemo } from "react";
-import axios from "../../lib/axios";
+import axios from "../../../lib/axios";
 
 function CardGroup({ folderId }) {
   const location = useLocation();
