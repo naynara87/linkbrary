@@ -1,4 +1,4 @@
-import style from "./LoadingBar.module.scss";
+import style from "./Loader.module.scss";
 
 function Loader() {
   return <div className={style.loader}></div>;

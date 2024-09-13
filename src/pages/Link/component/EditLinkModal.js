@@ -5,7 +5,7 @@ import axios from "../../../lib/axios";
 import { useToaster } from "../../../contexts/ToasterProvider";
 import { useModal } from "../../../contexts/ModalProvider";
 
-function EditLinkModal({ linkId, linkUrl }) {
+function EditLinkModal({ linkId, linkUrl, fetchLinks }) {
   const linkUrlRef = useRef(null);
   const toast = useToaster();
   const { closeModal } = useModal();
@@ -19,14 +19,15 @@ function EditLinkModal({ linkId, linkUrl }) {
         toast("warn", "링크 이름을 입력해 주세요.");
         return;
       }
-
       try {
         await axios.put(`/links/${linkId}`, { url: newLinkUrl });
         toast("info", "링크가 수정되었습니다.");
-        closeModal();
+        fetchLinks();
       } catch (error) {
         console.error("링크 수정 중 오류 발생:", error);
         toast("warn", "링크 수정에 실패했습니다.");
+      } finally {
+        closeModal();
       }
     },
     [linkId, toast, closeModal]
