@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import logo from "../../styles/images/logo/logo.svg";
 import Button from "../../components/ui/Button";
@@ -7,19 +7,16 @@ import { useAuth } from "../../contexts/AuthProvider";
 
 function Header() {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
   };
-  const handleLogoClick = () => {
-    navigate("/");
-  };
+
   return (
     <header className={styles.fixed}>
       <div className={styles.headerContianer}>
         <h1 className={styles.logo}>
-          <Link onClick={handleLogoClick} aria-label="메인 이동 로고">
+          <Link to="/link" path="path" aria-label="메인 이동 로고">
             <img src={logo} alt="logo" />
           </Link>
         </h1>

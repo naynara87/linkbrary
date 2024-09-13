@@ -5,7 +5,7 @@ import LoginPage from "./pages/Login/LoginPage";
 import SignupPage from "./pages/Signup/SignupPage";
 import LinkPage from "./pages/Link/LinkPage";
 import FavoritePage from "./pages/Favorite/FavoritePage";
-import { ModalProvider } from "./contexts/ModalProvider"; // Named import
+import { ModalProvider } from "./contexts/ModalProvider";
 import Modal from "./components/ui/Modal";
 import { FullLayout, LandingLayout } from "./components/layout/Layout";
 

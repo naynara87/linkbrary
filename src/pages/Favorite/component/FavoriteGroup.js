@@ -24,15 +24,17 @@ function FavoriteGroup() {
 
   return (
     <div className={style.cardGroup}>
-      <div className={style.cardList}>
-        {values.length === 0 ? (
-          <div className={style.searchNone}>
-            <p>저장된 링크가 없습니다</p>
-          </div>
-        ) : (
-          values.map((value) => <Card key={value.id} {...value} />)
-        )}
-      </div>
+      {values.length === 0 ? (
+        <div className={style.searchNone}>
+          <p>저장된 링크가 없습니다.</p>
+        </div>
+      ) : (
+        <div className={style.cardList}>
+          {values.map((value) => (
+            <Card key={value.id} {...value} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -5,14 +5,26 @@ import DeleteLinkModal from "./DeleteLinkModal";
 import EditLinkModal from "./EditLinkModal";
 import { useModal } from "../../../contexts/ModalProvider";
 
-function Dropdown({ linkId, linkUrl }) {
+function Dropdown({ linkId, linkUrl, fetchLinks }) {
   const { openModal } = useModal();
   const handleDeleteLink = useCallback(() => {
-    openModal(<DeleteLinkModal linkId={linkId} linkUrl={linkUrl} />);
+    openModal(
+      <DeleteLinkModal
+        linkId={linkId}
+        linkUrl={linkUrl}
+        fetchLinks={fetchLinks}
+      />
+    );
   }, [linkId, linkUrl, openModal]);
 
   const handleLinkEdit = useCallback(() => {
-    openModal(<EditLinkModal linkId={linkId} linkUrl={linkUrl} />);
+    openModal(
+      <EditLinkModal
+        linkId={linkId}
+        linkUrl={linkUrl}
+        fetchLinks={fetchLinks}
+      />
+    );
   }, [linkId, linkUrl, openModal]);
 
   return (

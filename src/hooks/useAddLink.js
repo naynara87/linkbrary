@@ -22,10 +22,11 @@ export const useAddLink = (initialValues) => {
         await axios.post(`/links`, { folderId, url });
         setValues({ folderId: folderId, url: "" });
         toast("info", "링크가 성공적으로 추가되었습니다.");
-        closeModal();
       } catch (error) {
         console.error("링크 추가 중 오류 발생:", error);
         toast("warn", "링크 추가 중 오류가 발생했습니다.");
+      } finally {
+        closeModal();
       }
     },
     [values, closeModal]
