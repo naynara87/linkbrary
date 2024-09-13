@@ -1,10 +1,13 @@
 import { AuthProvider } from "./contexts/AuthProvider";
 import ToasterProvider from "./contexts/ToasterProvider";
+import { LinkProvider } from "./contexts/LinkProvider";
 
 function Providers({ children }) {
   return (
     <ToasterProvider>
-      <AuthProvider>{children}</AuthProvider>
+      <LinkProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </LinkProvider>
     </ToasterProvider>
   );
 }
