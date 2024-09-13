@@ -69,43 +69,13 @@ function LinkPage() {
         return;
       }
       if (!folderId) {
-        handleAddLinkSubmit(url);
+        toast("warn", "폴더를 선택하세요.");
         return;
       }
-      onAddLinkSubmit();
+      onAddLinkSubmit(e);
     },
-    [values, handleAddLinkSubmit, onAddLinkSubmit, toast]
+    [values, onAddLinkSubmit, toast]
   );
-  const handleAddLinkSubmit = useCallback(
-    (url) => {
-      openModal(
-        <>
-          <h5 className={styles.modalTitle}>폴더에 추가</h5>
-          <form onSubmit={onAddLinkSubmit}>
-            <div className={styles.inputGroup}>
-              <p className={styles.subTitle}>{url}</p>
-              <ul>
-                {folders.map((folder) => (
-                  <li key={folder.id}>
-                    <label>
-                      <span>{folder.name}</span>
-                      <span>{folder.id}개 링크</span>
-                      <input name="folder" type="radio" />
-                    </label>
-                  </li>
-                ))}
-              </ul>
-              <Button type="submit" color="Primary" size="lg">
-                추가하기
-              </Button>
-            </div>
-          </form>
-        </>
-      );
-    },
-    [folders, onAddLinkSubmit]
-  );
-
   const getFolders = useCallback(async () => {
     try {
       const url = values.folderId ? `/folders/${values.folderId}` : `/folders`;
