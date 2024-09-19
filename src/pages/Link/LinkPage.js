@@ -15,7 +15,7 @@ import { useToaster } from "../../contexts/ToasterProvider";
 function LinkListNone() {
   return (
     <div className={styles.searchNone}>
-      <p>검색한 링크가 없습니다.</p>
+      <p>링크가 없습니다.</p>
     </div>
   );
 }
